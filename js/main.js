@@ -1,5 +1,13 @@
-const loginWindow = document.getElementById('login-window');
+// Boot-logik
+window.onload = () => {
+    setTimeout(() => {
+        document.getElementById('boot-screen').style.display = 'none';
+        document.getElementById('desktop').style.display = 'block';
+    }, 2000); // Boot-tid 2 sekunder
+};
 
+// Login-logik
+const loginWindow = document.getElementById('login-window');
 function openLogin() { loginWindow.style.display = 'block'; }
 function closeLogin() { loginWindow.style.display = 'none'; }
 
@@ -8,17 +16,12 @@ document.getElementById('system-trigger').addEventListener('click', openLogin);
 
 async function checkPassword() {
     const input = document.getElementById('pass-input').value;
-    
-    try {
-        const response = await fetch('../password.txt'); // Hämtar från roten
-        const correctPassword = await response.text();
+    const response = await fetch('../password.txt'); 
+    const correctPassword = await response.text();
 
-        if (input.trim() === correctPassword.trim()) {
-            window.location.href = "private/index.html";
-        } else {
-            alert("ACCESS DENIED");
-        }
-    } catch (e) {
-        alert("Error loading password file.");
+    if (input.trim() === correctPassword.trim()) {
+        window.location.href = "private/index.html";
+    } else {
+        alert("ACCESS DENIED");
     }
 }
