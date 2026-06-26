@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,24 @@
 </head>
 <body>
 
+    <div class="crt-overlay"></div>
+
+    <div id="boot-screen">
+        <div class="boot-text">
+            <p>BAMBUU BIOS V1.0.98</p>
+            <p>Copyright (C) 2026, Bambuu Corp.</p>
+            <br>
+            <p>CPU: Retro Processor @ 133MHz</p>
+            <p>Memory Test: 640K OK</p>
+            <p>Detecting Primary Master ... Found BAMBUU-HD</p>
+            <br>
+            <p>Loading GUI Components...</p>
+        </div>
+        <div class="boot-loader">
+            <div class="boot-progress"></div>
+        </div>
+    </div>
+
     <div id="desktop">
         
         <div class="desktop-icons">
@@ -18,22 +36,20 @@
                 <div class="icon-pix">📝</div>
                 <span class="icon-label">bambuu.txt</span>
             </div>
-            <a href="https://youtube.com/@bambuuspelar" target="_blank" class="icon" style="text-decoration: none;">
-                <div class="icon-pix">📺</div>
-                <span class="icon-label">YouTube</span>
-            </a>
-            <a href="https://tiktok.com/" target="_blank" class="icon" style="text-decoration: none;">
+            
+            <a href="https://www.tiktok.com/@pelleh52" target="_blank" class="icon" style="text-decoration: none;">
                 <div class="icon-pix">📱</div>
                 <span class="icon-label">TikTok</span>
             </a>
+
             <div id="secret-trigger" class="icon">
                 <div class="icon-pix">🔒</div>
                 <span class="icon-label">System</span>
             </div>
         </div>
 
-        <div class="window" id="win-bio" style="display: none;">
-            <div class="title-bar">
+        <div class="window" id="win-bio">
+            <div class="title-bar" id="win-bio-header">
                 <div class="title-bar-text">bambuu.txt - Notepad</div>
                 <div class="title-bar-controls">
                     <button aria-label="Minimize">─</button>
@@ -42,11 +58,11 @@
                 </div>
             </div>
             <div class="window-body">
-                <p>Välkommen till Bambuu Hub!</p>
+                <p>Welcome to Bambuu Hub!</p>
                 <br>
-                <p>Det här är mitt personliga hörn av internet. Här samlar jag mina moddar, projekt och länkar till alla mina sociala medier.</p>
+                <p>This is my personal corner of the internet where I showcase my mods, builds, and projects.</p>
                 <br>
-                <p>Kolla in ikonerna på skrivbordet!</p>
+                <p>Feel free to click around and explore the desktop shortcuts! (Yes, you can drag this window around!)</p>
             </div>
         </div>
 
@@ -56,10 +72,11 @@
         <button id="start-button">
             <span class="start-logo">❖</span> Start
         </button>
-        <div class="taskbar-windows">
-            </div>
+        <div class="taskbar-windows" id="taskbar-apps">
+            <div class="taskbar-item active" id="task-win-bio">bambuu.txt</div>
+        </div>
         <div id="system-tray">
-            <span id="clock">00:00</span>
+            <span id="clock">00:00 AM</span>
         </div>
     </div>
 
