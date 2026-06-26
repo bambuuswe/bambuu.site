@@ -1,100 +1,182 @@
-// 1. Fade out the Boot Screen after simulation ends
+/* =========================================
+   1. BOOT SEQUENCE LOGIC
+   ========================================= */
 window.addEventListener('DOMContentLoaded', () => {
+    const bootScreen = document.getElementById('boot-screen');
+    const bootStatus = document.getElementById('boot-status');
+    
+    // Uppdatera texten strax innan laddningen är klar
     setTimeout(() => {
-        const bootScreen = document.getElementById('boot-screen');
-        bootScreen.style.transition = 'opacity 0.4s ease';
-        bootScreen.style.opacity = '0';
-        setTimeout(() => {
-            bootScreen.style.display = 'none';
-        }, 400);
-    }, 2000); // Gives loading bar time to finish
+        if(bootStatus) bootStatus.innerText = "Welcome to Bambuu.OS... Launching GUI";
+    }, 1500);
+
+    // Tona ut och göm boot-skärmen
+    setTimeout(() => {
+        if(bootScreen) {
+            bootScreen.style.transition = 'opacity 0.4s ease';
+            bootScreen.style.opacity = '0';
+            setTimeout(() => {
+                bootScreen.style.display = 'none';
+            }, 400);
+        }
+    }, 2200);
 });
 
-// 2. Real-Time Clock 
+/* =========================================
+   2. REAL-TIME SYSTEM CLOCK
+   ========================================= */
 function updateClock() {
     const now = new Date();
     let hours = now.getHours();
-    const minutes = now.getMinutes();
+    let minutes = now.getMinutes();
     const ampm = hours >= 12 ? 'PM' : 'AM';
     
     hours = hours % 12;
-    hours = hours ? hours : 12; // Handle midnight (0 hours)
-    const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+    hours = hours ? hours : 12; // Hantera midnatt (0 blir 12)
+    minutes = minutes < 10 ? '0' + minutes : minutes;
     
-    document.getElementById('clock').textContent = `${hours}:${minutesStr} ${ampm}`;
+    const clockEl = document.getElementById('clock');
+    if (clockEl) clockEl.textContent = `${hours}:${minutes} ${ampm}`;
 }
 setInterval(updateClock, 1000);
 updateClock();
 
-// 3. Window Visibility Controls
-function openWindow(id) {
-    const win = document.getElementById(id);
-    if (win) {
-        win.style.display = 'block';
-        document.getElementById('task-win-bio').style.display = 'block';
-    }
+/* =========================================
+   3. START MENU LOGIC
+   ========================================= */
+const startBtn = document.getElementById('start-btn');
+const startMenu = document.getElementById('start-menu');
+
+if (startBtn && startMenu) {
+    // Öppna/stäng Startmenyn vid klick på Start-knappen
+    startBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Hindrar klicket från att bubbla upp
+        startMenu.classList.toggle('hidden');
+        startBtn.classList.toggle('active');
+    });
+
+    // Stäng Startmenyn om användaren klickar någon annanstans på skrivbordet
+    document.addEventListener('click', (e) => {
+        if (!startMenu.classList.contains('hidden') && 
+            !startBtn.contains(e.target) && 
+            !startMenu.contains(e.target)) {
+            
+            startMenu.classList.add('hidden');
+            startBtn.classList.remove('active');
+        }
+    });
 }
 
-function closeWindow(id) {
+/* =========================================
+   4. WINDOW MANAGEMENT (Open, Close, Focus)
+   ========================================= */
+window.toggleWindow = function(id) {
     const win = document.getElementById(id);
-    if (win) {
-        win.style.display = 'none';
-        document.getElementById('task-win-bio').style.display = 'none';
-    }
-}
-
-// 4. Secret Admin Backstage Portal (English Prompts)
-document.getElementById('secret-trigger').addEventListener('click', () => {
-    const password = prompt("AUTHENTICATION REQUIRED\nEnter administrator password:");
+    const taskItem = document.getElementById('task-' + id);
     
-    if (password === "bambuu") {
-        window.location.href = "private.html";
-    } else if (password !== null && password !== "") {
-        alert("ACCESS DENIED\nIncorrect system password.");
+    if (win) {
+        // Om fönstret är dolt, visa det
+        if (win.style.display === 'none' || win.style.display === '') {
+            win.style.display = 'block';
+            if(taskItem) taskItem.style.display = 'flex';
+            
+            // Lägg fönstret överst
+            document.querySelectorAll('.window').forEach(w => w.style.zIndex = 10);
+            win.style.zIndex = 100;
+        } 
+        // Om fönstret är synligt, göm det
+        else {
+            win.style.display = 'none';
+            if(taskItem) taskItem.style.display = 'none';
+        }
     }
-});
+    
+    // Göm startmenyn automatiskt om ett fönster klickas fram från menyn
+    if (startMenu && !startMenu.classList.contains('hidden')) {
+        startMenu.classList.add('hidden');
+        startBtn.classList.remove('active');
+    }
+};
 
-// 5. Native Drag & Drop Logic for Desktop Windows
-dragElement(document.getElementById("win-bio"));
+/* =========================================
+   5. SECRET SYSTEM LOCK (Admin)
+   ========================================= */
+const secretTrigger = document.getElementById('secret-trigger');
+if (secretTrigger) {
+    secretTrigger.addEventListener('click', () => {
+        const password = prompt("SYSTEM LOCKED\nEnter administrator password:");
+        if (password === "bambuu") {
+            // Skicka till backstage (se till att skapa private.html sen)
+            window.location.href = "private.html";
+        } else if (password !== null && password !== "") {
+            alert("ACCESS DENIED\nInvalid credentials.");
+        }
+    });
+}
 
-function dragElement(elmnt) {
+/* =========================================
+   6. UNIVERSAL DRAG & DROP (Mouse & Touch)
+   ========================================= */
+const makeDraggable = (elmnt) => {
     let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     const header = document.getElementById(elmnt.id + "-header");
     
     if (header) {
-        // Drag from the title-bar header if it exists
-        header.onmousedown = dragMouseDown;
+        header.onmousedown = dragStart;
+        header.ontouchstart = dragStart;
     } else {
-        // Fallback to the whole element
-        elmnt.onmousedown = dragMouseDown;
+        elmnt.onmousedown = dragStart;
+        elmnt.ontouchstart = dragStart;
     }
 
-    function dragMouseDown(e) {
+    function dragStart(e) {
         e = e || window.event;
-        e.preventDefault();
-        // Get mouse cursor position at start
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
+        
+        // Lägg det aktiva fönstret överst
+        document.querySelectorAll('.window').forEach(w => w.style.zIndex = 10);
+        elmnt.style.zIndex = 100;
+        
+        // Ta bort CSS-centreringen så fönstret inte "hoppar" när man drar det
+        elmnt.style.transform = "none";
+        
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        
+        pos3 = clientX;
+        pos4 = clientY;
+        
+        document.onmouseup = dragEnd;
+        document.ontouchend = dragEnd;
+        
+        document.onmousemove = drag;
+        document.ontouchmove = drag;
     }
 
-    function elementDrag(e) {
+    function drag(e) {
         e = e || window.event;
-        e.preventDefault();
-        // Calculate new cursor position delta
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        // Adjust element offset position
+        // Förhindra default scrolling på touch
+        if (e.touches) e.preventDefault();
+        
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        
+        pos1 = pos3 - clientX;
+        pos2 = pos4 - clientY;
+        pos3 = clientX;
+        pos4 = clientY;
+        
         elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
     }
 
-    function closeDragElement() {
-        // Stop moving when mouse button is released
+    function dragEnd() {
+        // Släpp taget
         document.onmouseup = null;
+        document.ontouchend = null;
         document.onmousemove = null;
+        document.ontouchmove = null;
     }
-}
+};
+
+// Applicera drag-and-drop på alla element med klassen "draggable"
+document.querySelectorAll('.draggable').forEach(makeDraggable);
