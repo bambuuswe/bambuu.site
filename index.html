@@ -3,80 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bambuu Hub</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>BAMBUU.OS // Ultra Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
+    
     <div class="crt-overlay"></div>
+    <div class="scanlines"></div>
 
     <div id="boot-screen">
-        <div class="boot-text">
-            <p>BAMBUU BIOS V1.0.98</p>
-            <p>Copyright (C) 2026, Bambuu Corp.</p>
+        <div class="terminal-text">
+            <p>BAMBUU BIOS V2.0.26 Ultra</p>
+            <p>Copyright (C) 2026, Bambuu Systems Inc.</p>
             <br>
-            <p>CPU: Retro Processor @ 133MHz</p>
-            <p>Memory Test: 640K OK</p>
-            <p>Detecting Primary Master ... Found BAMBUU-HD</p>
+            <p>Initializing RAM... <span class="blink">640K OK</span></p>
+            <p>Mounting drive C: [BAMBUU_HUB]... OK</p>
+            <p>Loading graphics module... OK</p>
             <br>
-            <p>Loading GUI Components...</p>
-        </div>
-        <div class="boot-loader">
-            <div class="boot-progress"></div>
+            <p id="boot-status">Booting Bambuu.OS...</p>
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+            </div>
         </div>
     </div>
 
     <div id="desktop">
         
-        <div class="desktop-icons">
-            <div class="icon" onclick="openWindow('win-bio')">
-                <div class="icon-pix">📝</div>
-                <span class="icon-label">bambuu.txt</span>
+        <div class="desktop-grid">
+            <div class="desktop-icon" ondblclick="toggleWindow('win-bio')">
+                <img src="https://win98icons.alexmeub.com/icons/notepad-0.png" alt="Notepad" class="icon-img">
+                <span class="icon-text">bambuu.txt</span>
             </div>
             
-            <a href="https://www.tiktok.com/@pelleh52" target="_blank" class="icon" style="text-decoration: none;">
-                <div class="icon-pix">📱</div>
-                <span class="icon-label">TikTok</span>
+            <a href="https://www.tiktok.com/@pelleh52" target="_blank" class="desktop-icon">
+                <img src="https://win98icons.alexmeub.com/icons/msie1-2.png" alt="TikTok" class="icon-img">
+                <span class="icon-text">TikTok</span>
             </a>
 
-            <div id="secret-trigger" class="icon">
-                <div class="icon-pix">🔒</div>
-                <span class="icon-label">System</span>
+            <div class="desktop-icon" id="secret-trigger">
+                <img src="https://win98icons.alexmeub.com/icons/key-0.png" alt="System" class="icon-img">
+                <span class="icon-text">System</span>
             </div>
         </div>
 
-        <div class="window" id="win-bio">
-            <div class="title-bar" id="win-bio-header">
-                <div class="title-bar-text">bambuu.txt - Notepad</div>
-                <div class="title-bar-controls">
-                    <button aria-label="Minimize">─</button>
-                    <button aria-label="Maximize">□</button>
-                    <button aria-label="Close" onclick="closeWindow('win-bio')">✕</button>
+        <div class="window draggable" id="win-bio">
+            <div class="window-header" id="win-bio-header">
+                <div class="window-title">
+                    <img src="https://win98icons.alexmeub.com/icons/notepad-0.png" alt="icon" width="16">
+                    <span>bambuu.txt - Notepad</span>
+                </div>
+                <div class="window-controls">
+                    <button class="win-btn minimize">_</button>
+                    <button class="win-btn maximize">□</button>
+                    <button class="win-btn close" onclick="toggleWindow('win-bio')">X</button>
                 </div>
             </div>
-            <div class="window-body">
-                <p>Welcome to Bambuu Hub!</p>
+            <div class="window-content">
+                <p><strong>Welcome to Bambuu Hub Ultra!</strong></p>
+                <hr>
+                <p>This is the newly reworked core of my digital existence.</p>
                 <br>
-                <p>This is my personal corner of the internet where I showcase my mods, builds, and projects.</p>
+                <ul>
+                    <li>Mods</li>
+                    <li>Projects</li>
+                    <li>Socials</li>
+                </ul>
                 <br>
-                <p>Feel free to click around and explore the desktop shortcuts! (Yes, you can drag this window around!)</p>
+                <p>Double-click the icons, drag this window, explore the OS.</p>
             </div>
         </div>
 
+        <div id="start-menu" class="hidden">
+            <div class="start-menu-sidebar">
+                <span>Bambuu.OS</span>
+            </div>
+            <div class="start-menu-items">
+                <div class="start-item" onclick="toggleWindow('win-bio')">
+                    <img src="https://win98icons.alexmeub.com/icons/notepad-0.png" alt="Notepad">
+                    <span>About Bambuu</span>
+                </div>
+                <a href="https://www.tiktok.com/@pelleh52" target="_blank" class="start-item">
+                    <img src="https://win98icons.alexmeub.com/icons/msie1-2.png" alt="TikTok">
+                    <span>TikTok (@pelleh52)</span>
+                </a>
+                <div class="start-divider"></div>
+                <div class="start-item" id="shutdown-btn">
+                    <img src="https://win98icons.alexmeub.com/icons/shut_down_normal-0.png" alt="Shutdown">
+                    <span>Shut Down...</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="taskbar">
-        <button id="start-button">
-            <span class="start-logo">❖</span> Start
+        <button id="start-btn">
+            <img src="https://win98icons.alexmeub.com/icons/windows-0.png" alt="Start" width="16">
+            <b>Start</b>
         </button>
-        <div class="taskbar-windows" id="taskbar-apps">
-            <div class="taskbar-item active" id="task-win-bio">bambuu.txt</div>
+        
+        <div id="taskbar-apps">
+            <div class="task-tab active" id="task-win-bio" onclick="toggleWindow('win-bio')">
+                <img src="https://win98icons.alexmeub.com/icons/notepad-0.png" alt="Notepad" width="16">
+                <span>bambuu.txt</span>
+            </div>
         </div>
+
         <div id="system-tray">
-            <span id="clock">00:00 AM</span>
+            <img src="https://win98icons.alexmeub.com/icons/loudspeaker_rays-0.png" alt="Volume" width="16">
+            <span id="clock">12:00 AM</span>
         </div>
     </div>
 
