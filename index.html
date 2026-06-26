@@ -8,20 +8,36 @@
 </head>
 <body>
 
-    <div class="container">
+    <header>
         <h1>Bambuu Hub</h1>
-        <p>Welcome to the main station.</p>
-        
-        <div class="button-grid">
-            <button class="btn" onclick="openLogin()">Access Private Area</button>
+        <button class="btn" onclick="openLogin()">Private Area</button>
+    </header>
+
+    <main class="gallery-grid">
+        <!-- Box 1: Text -->
+        <div class="box">
+            <h3>Project Alpha</h3>
+            <p>Description of the project goes here. Keep it short and sweet.</p>
         </div>
-    </div>
+
+        <!-- Box 2: Bild -->
+        <div class="box">
+            <img src="https://via.placeholder.com/300x200" alt="Project image">
+            <p>Caption for the image.</p>
+        </div>
+
+        <!-- Box 3: Text -->
+        <div class="box">
+            <h3>Another Update</h3>
+            <p>More interesting content about what I am building right now.</p>
+        </div>
+    </main>
 
     <div id="login-modal" class="modal">
         <div class="modal-content">
             <h3>Enter Password</h3>
-            <input type="password" id="pass-input" placeholder="Password...">
-            <button class="btn" onclick="checkPassword()">Submit</button>
+            <input type="password" id="pass-input">
+            <button class="btn" onclick="checkPassword()">Enter</button>
         </div>
     </div>
 
