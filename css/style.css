@@ -52,3 +52,20 @@ body::before {
     border-radius: 8px; 
     cursor: pointer; 
 }
+
+.login-section {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    background: rgba(30, 30, 30, 0.5);
+    border-radius: 12px;
+}
+
+#pass-input {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background: #000;
+    color: white;
+    margin-right: 10px;
+}
