@@ -1,27 +1,24 @@
+html {
+    height: 100%;
+    margin: 0;
+}
+
 body {
     margin: 0;
     padding: 20px;
     color: white;
     font-family: 'Segoe UI', sans-serif;
     min-height: 100vh;
-}
-
-/* Fixar bakgrunden här istället */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Lägg till din bild och den mörka tonen här */
+    /* Bakgrunden fixeras här */
     background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
                 url('../ets2_20260617_152933_00.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    z-index: -1; /* Den ska ligga längst bak */
+    background-repeat: no-repeat;
 }
+
+header { margin-bottom: 30px; }
 
 .profile-box {
     background: rgba(30, 30, 30, 0.8);
@@ -44,14 +41,7 @@ body::before {
     border: 1px solid #444;
 }
 
-.btn { 
-    background: #0070f3; 
-    color: white; 
-    border: none; 
-    padding: 10px 20px; 
-    border-radius: 8px; 
-    cursor: pointer; 
-}
+.box img { width: 100%; border-radius: 8px; }
 
 .login-section {
     margin-top: 40px;
@@ -61,11 +51,5 @@ body::before {
     border-radius: 12px;
 }
 
-#pass-input {
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #444;
-    background: #000;
-    color: white;
-    margin-right: 10px;
-}
+#pass-input { padding: 10px; border-radius: 6px; border: 1px solid #444; background: #000; color: white; }
+.btn { background: #0070f3; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
