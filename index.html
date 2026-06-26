@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bambuu Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div id="desktop">
+        
+        <div class="desktop-icons">
+            <div class="icon" onclick="openWindow('win-bio')">
+                <div class="icon-pix">📝</div>
+                <span class="icon-label">bambuu.txt</span>
+            </div>
+            <a href="https://youtube.com/@bambuuspelar" target="_blank" class="icon" style="text-decoration: none;">
+                <div class="icon-pix">📺</div>
+                <span class="icon-label">YouTube</span>
+            </a>
+            <a href="https://tiktok.com/" target="_blank" class="icon" style="text-decoration: none;">
+                <div class="icon-pix">📱</div>
+                <span class="icon-label">TikTok</span>
+            </a>
+            <div id="secret-trigger" class="icon">
+                <div class="icon-pix">🔒</div>
+                <span class="icon-label">System</span>
+            </div>
+        </div>
+
+        <div class="window" id="win-bio" style="display: none;">
+            <div class="title-bar">
+                <div class="title-bar-text">bambuu.txt - Notepad</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize">─</button>
+                    <button aria-label="Maximize">□</button>
+                    <button aria-label="Close" onclick="closeWindow('win-bio')">✕</button>
+                </div>
+            </div>
+            <div class="window-body">
+                <p>Välkommen till Bambuu Hub!</p>
+                <br>
+                <p>Det här är mitt personliga hörn av internet. Här samlar jag mina moddar, projekt och länkar till alla mina sociala medier.</p>
+                <br>
+                <p>Kolla in ikonerna på skrivbordet!</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="taskbar">
+        <button id="start-button">
+            <span class="start-logo">❖</span> Start
+        </button>
+        <div class="taskbar-windows">
+            </div>
+        <div id="system-tray">
+            <span id="clock">00:00</span>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
