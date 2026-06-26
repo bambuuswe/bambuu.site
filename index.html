@@ -2,117 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAMBUU.OS // Ultra Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <title>BAMBUU.OS // Desktop</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    
-    <div class="crt-overlay"></div>
-    <div class="scanlines"></div>
 
-    <div id="boot-screen">
-        <div class="terminal-text">
-            <p>BAMBUU BIOS V2.0.26 Ultra</p>
-            <p>Copyright (C) 2026, Bambuu Systems Inc.</p>
-            <br>
-            <p>Initializing RAM... <span class="blink">640K OK</span></p>
-            <p>Mounting drive C: [BAMBUU_HUB]... OK</p>
-            <p>Loading graphics module... OK</p>
-            <br>
-            <p id="boot-status">Booting Bambuu.OS...</p>
-            <div class="progress-bar-container">
-                <div class="progress-bar"></div>
-            </div>
+    <div id="desktop">
+        <div class="desktop-icon" id="system-trigger">
+            <img src="https://win98icons.alexmeub.com/icons/key-0.png" alt="System">
+            <span>System</span>
         </div>
     </div>
 
-    <div id="desktop">
-        
-        <div class="desktop-grid">
-            <div class="desktop-icon" ondblclick="toggleWindow('win-bio')">
-                <img src="https://win98icons.alexmeub.com/icons/notepad-0.png" alt="Notepad" class="icon-img">
-                <span class="icon-text">bambuu.txt</span>
-            </div>
-            
-            <a href="https://www.tiktok.com/@pelleh52" target="_blank" class="desktop-icon">
-                <img src="https://win98icons.alexmeub.com/icons/msie1-2.png" alt="TikTok" class="icon-img">
-                <span class="icon-text">TikTok</span>
-            </a>
-
-            <div class="desktop-icon" id="secret-trigger">
-                <img src="https://win98icons.alexmeub.com/icons/key-0.png" alt="System" class="icon-img">
-                <span class="icon-text">System</span>
-            </div>
+    <div id="login-window" class="window" style="display: none;">
+        <div class="window-header">
+            <span>Login Required</span>
+            <button onclick="closeLogin()">X</button>
         </div>
-
-        <div class="window draggable" id="win-bio">
-            <div class="window-header" id="win-bio-header">
-                <div class="window-title">
-                    <img src="https://win98icons.alexmeub.com/icons/notepad-0.png" alt="icon" width="16">
-                    <span>bambuu.txt - Notepad</span>
-                </div>
-                <div class="window-controls">
-                    <button class="win-btn minimize">_</button>
-                    <button class="win-btn maximize">□</button>
-                    <button class="win-btn close" onclick="toggleWindow('win-bio')">X</button>
-                </div>
-            </div>
-            <div class="window-content">
-                <p><strong>Welcome to Bambuu Hub Ultra!</strong></p>
-                <hr>
-                <p>This is the newly reworked core of my digital existence.</p>
-                <br>
-                <ul>
-                    <li>Mods</li>
-                    <li>Projects</li>
-                    <li>Socials</li>
-                </ul>
-                <br>
-                <p>Double-click the icons, drag this window, explore the OS.</p>
-            </div>
-        </div>
-
-        <div id="start-menu" class="hidden">
-            <div class="start-menu-sidebar">
-                <span>Bambuu.OS</span>
-            </div>
-            <div class="start-menu-items">
-                <div class="start-item" onclick="toggleWindow('win-bio')">
-                    <img src="https://win98icons.alexmeub.com/icons/notepad-0.png" alt="Notepad">
-                    <span>About Bambuu</span>
-                </div>
-                <a href="https://www.tiktok.com/@pelleh52" target="_blank" class="start-item">
-                    <img src="https://win98icons.alexmeub.com/icons/msie1-2.png" alt="TikTok">
-                    <span>TikTok (@pelleh52)</span>
-                </a>
-                <div class="start-divider"></div>
-                <div class="start-item" id="shutdown-btn">
-                    <img src="https://win98icons.alexmeub.com/icons/shut_down_normal-0.png" alt="Shutdown">
-                    <span>Shut Down...</span>
-                </div>
-            </div>
+        <div class="window-content">
+            <p>Enter System Password:</p>
+            <input type="password" id="pass-input">
+            <button onclick="checkPassword()">OK</button>
         </div>
     </div>
 
     <div id="taskbar">
-        <button id="start-btn">
-            <img src="https://win98icons.alexmeub.com/icons/windows-0.png" alt="Start" width="16">
-            <b>Start</b>
-        </button>
-        
-        <div id="taskbar-apps">
-            <div class="task-tab active" id="task-win-bio" onclick="toggleWindow('win-bio')">
-                <img src="https://win98icons.alexmeub.com/icons/notepad-0.png" alt="Notepad" width="16">
-                <span>bambuu.txt</span>
-            </div>
-        </div>
-
-        <div id="system-tray">
-            <img src="https://win98icons.alexmeub.com/icons/loudspeaker_rays-0.png" alt="Volume" width="16">
-            <span id="clock">12:00 AM</span>
-        </div>
+        <button id="start-btn">Start</button>
     </div>
 
     <script src="js/main.js"></script>
