@@ -3,41 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bambuu Hub</title>
+    <title>Bambuu Customs // Hub</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
     <header>
-        <h1>Bambuu Hub</h1>
-        <button class="btn" onclick="openLogin()">Private Area</button>
+        <h1>Bambuu Customs</h1>
+        <button class="btn" onclick="openLogin()">Private Access</button>
     </header>
 
-    <main class="gallery-grid">
-        <!-- Box 1: Text -->
-        <div class="box">
-            <h3>Project Alpha</h3>
-            <p>Description of the project goes here. Keep it short and sweet.</p>
-        </div>
+    <main>
+        <section class="profile-box">
+            <h2>About Pelle</h2>
+            <p>ETS2 Modder for <strong>Insanux</strong>. Specializing in save edits, local mods, and high-quality truck/trailer builds.</p>
+            <p>Currently building the <strong>Bambuu Customs</strong> brand: a professional platform for future mod releases and web projects.</p>
+        </section>
 
-        <!-- Box 2: Bild -->
-        <div class="box">
-            <img src="https://via.placeholder.com/300x200" alt="Project image">
-            <p>Caption for the image.</p>
-        </div>
-
-        <!-- Box 3: Text -->
-        <div class="box">
-            <h3>Another Update</h3>
-            <p>More interesting content about what I am building right now.</p>
-        </div>
+        <section class="gallery-grid">
+            <div class="box">
+                <h3>Current Focus</h3>
+                <ul>
+                    <li>🚛 Creating save edits & local mods for Insanux.</li>
+                    <li>🌐 Developing Bambuu Customs web presence.</li>
+                    <li>🎨 High-quality, professional ETS2 projects.</li>
+                </ul>
+            </div>
+            
+            <div class="box">
+                <h3>Technical Skills</h3>
+                <p>Computer hardware, networking, game servers, and modern web development (GitHub/Cloudflare).</p>
+            </div>
+        </section>
     </main>
 
     <div id="login-modal" class="modal">
         <div class="modal-content">
-            <h3>Enter Password</h3>
-            <input type="password" id="pass-input">
-            <button class="btn" onclick="checkPassword()">Enter</button>
+            <h3>System Access</h3>
+            <input type="password" id="pass-input" placeholder="Password">
+            <button class="btn" onclick="checkPassword()">Login</button>
         </div>
     </div>
 
