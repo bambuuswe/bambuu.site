@@ -1,21 +1,26 @@
 body {
-    background-color: #121212;
-    /* Här lägger du till din bakgrund */
-    background-image: url('ets2_20260617_152933_00.png'); 
+    margin: 0;
+    padding: 20px;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+
+/* Fixar bakgrunden här istället */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Lägg till din bild och den mörka tonen här */
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('../ets2_20260617_152933_00.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    color: white;
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0; padding: 20px;
-}
-
-/* Lägg ett mörkt lager ovanpå bakgrunden så texten syns */
-body::before {
-    content: "";
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: -1;
+    z-index: -1; /* Den ska ligga längst bak */
 }
 
 .profile-box {
@@ -39,4 +44,11 @@ body::before {
     border: 1px solid #444;
 }
 
-.btn { background: #0070f3; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+.btn { 
+    background: #0070f3; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+}
