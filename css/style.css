@@ -1,0 +1,172 @@
+/* Nollställning och typsnitt */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, button {
+    font-family: "Tahoma", "MS Sans Serif", sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+    overflow: hidden; /* Förhindrar scroll på skrivbordet */
+}
+
+/* Skrivbordsytan med klassisk Teal-färg */
+#desktop {
+    background-color: #008080;
+    width: 100vw;
+    height: calc(100vh - 40px);
+    position: relative;
+    padding: 20px;
+}
+
+/* Skrivbordsikoner */
+.desktop-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 80px;
+}
+
+.icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+}
+
+.icon-pix {
+    font-size: 32px;
+    margin-bottom: 4px;
+}
+
+.icon-label {
+    text-shadow: 1px 1px #000;
+    padding: 2px 4px;
+}
+
+.icon:hover .icon-label {
+    background-color: #000080;
+    outline: 1px dotted #fff;
+}
+
+/* Det hemliga backstagelåset */
+#secret-trigger {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0.1;
+    transition: opacity 0.3s;
+}
+
+#secret-trigger:hover {
+    opacity: 0.8;
+}
+
+/* Klassiskt Windows-fönster med 3D-effekt */
+.window {
+    background-color: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #0a0a0a #0a0a0a #fff;
+    box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080, 2px 2px 5px rgba(0,0,0,0.5);
+    width: 400px;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 3px;
+    z-index: 10;
+}
+
+/* Titelraden */
+.title-bar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 4px 3px 6px;
+    font-weight: bold;
+}
+
+.title-bar-text {
+    letter-spacing: 0.5px;
+}
+
+.title-bar-controls button {
+    background-color: #c0c0c0;
+    border: 1px solid;
+    border-color: #fff #0a0a0a #0a0a0a #fff;
+    font-size: 10px;
+    font-weight: bold;
+    width: 16px;
+    height: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+}
+
+.title-bar-controls button:active {
+    border-color: #0a0a0a #fff #fff #0a0a0a;
+    padding: 1px 0px 0px 1px;
+}
+
+/* Innehållet i fönstret */
+.window-body {
+    margin: 8px;
+    background-color: #fff;
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    padding: 15px;
+    min-height: 150px;
+    color: black;
+}
+
+/* Taskbar längst ner */
+#taskbar {
+    background-color: #c0c0c0;
+    height: 40px;
+    border-top: 2px solid #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    padding: 2px 6px;
+    justify-content: space-between;
+    z-index: 9999;
+}
+
+#start-button {
+    background-color: #c0c0c0;
+    font-weight: bold;
+    border: 2px solid;
+    border-color: #fff #0a0a0a #0a0a0a #fff;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+#start-button:active {
+    border-color: #0a0a0a #fff #fff #0a0a0a;
+    padding: 5px 7px 3px 9px;
+}
+
+#system-tray {
+    background-color: #c0c0c0;
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    padding: 4px 8px;
+    font-size: 12px;
+}
