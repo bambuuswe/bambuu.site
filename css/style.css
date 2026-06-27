@@ -1,75 +1,42 @@
 /* Grundläggande reset */
 * {
     box-sizing: border-box;
-}
-
-html {
     margin: 0;
     padding: 0;
-    /* VIKTIGT: Ingen background-color här, den blockerar bilden! */
+}
+
+/* Lösningen: Sätt bakgrunden här, på rotnivån! */
+html {
+    min-height: 100%;
+    /* Detta skapar den mörka tonen och bilden, och låser fast den */
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('../ets2_20260617_152933_00.png') no-repeat center center fixed; 
+    background-size: cover;
 }
 
 body {
-    margin: 0;
-    padding: 0;
     width: 100%;
-    min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #e0e0e0;
-    /* Tvingar body att agera bottenplatta för z-index */
-    position: relative;
-    z-index: 0; 
+    /* Ingen background här! */
 }
 
-/* Den låsta bakgrundsbilden */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Ligger bakom allt innehåll, men framför body-botten */
-    
-    /* Dubbelkolla sökvägen här! 
-       Ligger bilden i mappen 'assets'? Ändra då till: url('../assets/ets2_20260617_152933_00.png') */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                      url('../ets2_20260617_152933_00.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-/* Huvudbehållare som ger marginaler på stora och små skärmar */
+/* Huvudbehållare */
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 40px 20px; /* Mer utrymme på toppen */
 }
 
-/* Navigering */
 header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 }
 
 header h1 {
     color: #ffffff;
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-nav a {
-    color: #0070f3;
-    text-decoration: none;
-    margin: 0 10px;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-nav a:hover {
-    color: #ffffff;
-    text-decoration: underline;
+    font-size: 3rem; /* Lite större titel */
+    letter-spacing: 2px;
 }
 
 /* Profilsektion */
@@ -82,10 +49,14 @@ nav a:hover {
     backdrop-filter: blur(5px);
 }
 
-/* Grid för Mods, Info och Save Edits (Fixar mobilvyn!) */
+.profile-box h2 {
+    margin-top: 0;
+    color: #0070f3;
+}
+
+/* Grid för innehåll (Fixar mobilvyn) */
 .grid-container {
     display: grid;
-    /* auto-fit och minmax(280px) gör att den per automatik blir 1 kolumn på mobil och fler på dator */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
 }
@@ -95,13 +66,7 @@ nav a:hover {
     padding: 20px;
     border-radius: 12px;
     border: 1px solid #444;
-    transition: transform 0.2s, border-color 0.2s;
     backdrop-filter: blur(5px);
-}
-
-.card:hover {
-    border-color: #0070f3;
-    transform: translateY(-5px);
 }
 
 .card img {
@@ -109,24 +74,40 @@ nav a:hover {
     height: auto;
     border-radius: 8px;
     margin-bottom: 15px;
+    border: 1px solid #555;
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #ffffff;
+}
+
+.card ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+
+.card ul li {
+    margin-bottom: 8px;
 }
 
 /* Inloggningssektionen */
 .login-section {
     max-width: 400px;
-    margin: 50px auto 0;
-    padding: 20px;
+    margin: 60px auto 20px; /* Extra marginal ovanför */
+    padding: 30px;
     text-align: center;
     background: rgba(30, 30, 30, 0.85);
     border-radius: 12px;
     border: 1px solid #444;
+    backdrop-filter: blur(5px);
 }
 
 #pass-input {
     width: 100%;
     padding: 12px;
     border-radius: 6px;
-    border: 1px solid #444;
+    border: 1px solid #555;
     background: #000;
     color: white;
     margin-bottom: 15px;
@@ -144,8 +125,7 @@ nav a:hover {
     cursor: pointer;
     font-size: 1rem;
     font-weight: bold;
-    text-decoration: none;
-    text-align: center;
+    transition: background 0.2s;
 }
 
 .btn:hover {
