@@ -1,16 +1,24 @@
-/* Grundläggande reset för att fixa mobilmarginaler */
+/* Grundläggande reset */
 * {
     box-sizing: border-box;
 }
 
-html, body {
+html {
+    margin: 0;
+    padding: 0;
+    /* VIKTIGT: Ingen background-color här, den blockerar bilden! */
+}
+
+body {
     margin: 0;
     padding: 0;
     width: 100%;
     min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #e0e0e0;
-    background-color: #121212;
+    /* Tvingar body att agera bottenplatta för z-index */
+    position: relative;
+    z-index: 0; 
 }
 
 /* Den låsta bakgrundsbilden */
@@ -21,9 +29,12 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                url('../ets2_20260617_152933_00.png');
+    z-index: -1; /* Ligger bakom allt innehåll, men framför body-botten */
+    
+    /* Dubbelkolla sökvägen här! 
+       Ligger bilden i mappen 'assets'? Ändra då till: url('../assets/ets2_20260617_152933_00.png') */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                      url('../ets2_20260617_152933_00.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
