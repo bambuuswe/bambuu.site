@@ -8,22 +8,30 @@
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1 class="logo">Bambuu Customs</h1>
-        </header>
+    <!-- Ny Hero-sektion för att skapa yta att skrolla från -->
+    <header class="hero">
+        <h1 class="logo">Bambuu Customs</h1>
+        <p class="hero-subtitle">High Quality ETS2 Modding & Save Edits</p>
+    </header>
 
+    <div class="container">
         <main class="grid-layout">
-            <section class="card full-width profile-card">
+            
+            <!-- Notera klassen "reveal" som ligger på alla dessa kort nu! -->
+            
+            <!-- Profil -->
+            <section class="card full-width profile-card reveal">
                 <h2>About Bambuu</h2>
                 <p>ETS2 Modder for <strong>Insanux</strong>. Specializing in save edits, local mods, and high-quality truck/trailer builds.</p>
             </section>
 
-            <div class="card image-card">
-                <img src="IMG_0216.jpg" alt="Bambuu Showcase">
+            <!-- Bild -->
+            <div class="card image-card reveal">
+                <img src="IMG_0216.jpg" alt="Bambuu Showcase" onerror="this.style.display='none'">
             </div>
 
-            <div class="card list-card">
+            <!-- Info -->
+            <div class="card list-card reveal">
                 <h3>Current Focus</h3>
                 <ul>
                     <li><span>🚛</span> Creating save edits & local mods for Insanux.</li>
@@ -32,34 +40,67 @@
                 </ul>
             </div>
             
-            <section class="card skills-card full-width">
+            <!-- Skills -->
+            <section class="card skills-card full-width reveal">
                 <h3>Technical Skills</h3>
                 <p>Computer hardware, networking, game servers, web development and modern hosting.</p>
             </section>
         </main>
 
-        <footer>
+        <!-- Dolda inloggningen -->
+        <footer class="reveal">
             <button class="login-text-btn" onclick="triggerLogin()">Login</button>
         </footer>
     </div>
 
+    <!-- SKRIPT FÖR INTERAKTIVITET OCH INLOGGNING -->
     <script>
+        // 1. SCROLL REVEAL ENGINE (Observerar när ett element kommer in på skärmen)
+        function revealElements() {
+            // Letar upp allt som har klassen "reveal"
+            const reveals = document.querySelectorAll('.reveal');
+
+            // Inställningar för observer (aktiveras när 15% av elementet syns)
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        // Lägger till "active" när man skrollar ner
+                        entry.target.classList.add('active');
+                        // Stoppar bevakningen på elementet så det inte hoppar in o ut igen
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            reveals.forEach(reveal => {
+                revealObserver.observe(reveal);
+            });
+        }
+
+        // Aktivera reveal-motorn direkt när sidan laddas
+        window.addEventListener('DOMContentLoaded', revealElements);
+
+
+        // 2. DOLDA INLOGGNINGEN (Samma som förut)
         async function triggerLogin() {
-            // Öppnar en ren inmatningsruta direkt i webbläsaren
             const inputVal = prompt("Enter password to access private section:");
             
-            // Om användaren klickar på avbryt eller stänger rutan
             if (inputVal === null) return; 
             
             try {
-                // Läser in filen password.txt
                 const response = await fetch('password.txt');
                 if (!response.ok) {
                     throw new Error("Could not load password.txt");
                 }
                 const realPass = await response.text();
                 
-                // Jämför värdena (.trim rensar dolda radbrytningar)
                 if (inputVal.trim() === realPass.trim()) {
                     window.location.href = 'private.html'; 
                 } else {
