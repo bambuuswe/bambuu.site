@@ -15,9 +15,9 @@
 
 html {
     height: 100%;
+    /* Fastlåst bakgrund som alltid täcker */
     background: var(--bg-overlay), url('../ets2_20260617_152933_00.png') no-repeat center center fixed;
     background-size: cover;
-    scroll-behavior: smooth;
 }
 
 body {
@@ -25,49 +25,41 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     color: var(--text-main);
     line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden; /* Förhindrar att animationerna skapar sidscroll */
+    overflow-x: hidden;
 }
 
-/* HERO SEKTION (Tvingar fram skroll) */
-.hero {
-    min-height: 70vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-}
-
-.logo {
-    font-size: 4rem;
-    font-weight: 800;
-    letter-spacing: -2px;
-    color: #ffffff;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-    /* En subtil animation på loggan som andas in när sidan laddas */
-    animation: fadeInDown 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-
-.hero-subtitle {
-    margin-top: 10px;
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    opacity: 0;
-    animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards;
-}
-
-/* CONTAINERS & GRID */
 .container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 0 20px 40px 20px;
+    padding: 60px 20px 40px 20px;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 50px;
+    /* Animerar in loggan först */
+    animation: slideDownFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.logo {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #ffffff;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+}
+
+/* Smart Grid */
 .grid-layout {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -75,7 +67,7 @@ body {
     flex-grow: 1;
 }
 
-/* KORTEN MED GLASS SWEEP-EFFEKT */
+/* Korten med glaseffekt */
 .card {
     position: relative;
     background: var(--card-bg);
@@ -85,11 +77,23 @@ body {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.4s ease, box-shadow 0.4s ease;
-    overflow: hidden; /* Viktigt för sweep-effekten */
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    
+    /* Alla kort börjar osynliga */
+    opacity: 0; 
+    transform: translateY(30px);
+    /* Sätter CSS-animationen som laddar in dem */
+    animation: slideUpFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* Det glänsande strecket som drar över kortet när du hovrar */
+/* STAGGER EFFEKT: Korten laddas in en efter en */
+.card:nth-child(1) { animation-delay: 0.2s; }
+.card:nth-child(2) { animation-delay: 0.4s; }
+.card:nth-child(3) { animation-delay: 0.6s; }
+.card:nth-child(4) { animation-delay: 0.8s; }
+
+/* Glänsande Hover-effekt (Sweep) */
 .card::before {
     content: "";
     position: absolute;
@@ -104,32 +108,24 @@ body {
     pointer-events: none;
 }
 
-.card:hover::before {
-    left: 150%;
-}
-
+.card:hover::before { left: 150%; }
 .card:hover {
-    transform: translateY(-8px) scale(1.01);
+    transform: translateY(-5px);
     border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.6);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
 }
 
-/* Se till att innehållet ligger över den glänsande effekten */
-.card > * {
-    position: relative;
-    z-index: 2;
-}
+.card > * { position: relative; z-index: 2; }
 
-.full-width {
-    grid-column: span 2;
-}
+.full-width { grid-column: span 2; }
 
-/* TYPOGRAFI & INNEHÅLL I KORTEN */
-.profile-card h2 { font-size: 1.8rem; color: #ffffff; margin-bottom: 12px; }
-.profile-card p { font-size: 1.1rem; }
-.profile-card strong { color: var(--accent-color); }
+/* Typografi i korten */
+.card h2, .card h3 { color: #ffffff; margin-bottom: 15px; }
+.card p { font-size: 1.1rem; }
+.card strong { color: var(--accent-color); }
 
-.image-card { padding: 0; }
+/* Bildkortet */
+.image-card { padding: 0; display: flex; }
 .image-card img {
     width: 100%;
     height: 100%;
@@ -139,52 +135,44 @@ body {
 }
 .image-card:hover img { transform: scale(1.05); }
 
-.list-card h3, .skills-card h3 { font-size: 1.4rem; color: #ffffff; margin-bottom: 16px; }
+/* Listor */
 .list-card ul { list-style: none; }
-.list-card li { margin-bottom: 12px; display: flex; align-items: flex-start; font-size: 1.05rem; }
-.list-card li span { margin-right: 10px; }
-.skills-card p { color: var(--text-muted); font-size: 1.05rem; }
+.list-card li { margin-bottom: 12px; display: flex; font-size: 1.05rem; }
+.list-card li span { margin-right: 12px; }
 
-/* INLOGGNINGSKNAPP */
-footer { margin-top: 80px; text-align: center; }
+/* Inloggningsknapp i Footer */
+footer {
+    margin-top: 60px;
+    text-align: center;
+    opacity: 0;
+    animation: slideUpFade 0.8s ease forwards;
+    animation-delay: 1s; /* Laddas in sist */
+}
+
 .login-text-btn {
     background: none; border: none; color: var(--text-muted); font-size: 0.95rem;
     cursor: pointer; font-weight: 500; letter-spacing: 0.5px; padding: 10px 20px;
     transition: color 0.3s ease, opacity 0.3s ease; opacity: 0.4;
 }
-.login-text-btn:hover {
-    color: #ffffff; opacity: 1; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
+.login-text-btn:hover { color: #ffffff; opacity: 1; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
 
-/* --- ANIMATIONSKLASSER (Scroll Reveal) --- */
-.reveal {
-    opacity: 0;
-    transform: translateY(60px); /* Elementet börjar längre ner */
-    transition: all 0.9s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0); /* Glider upp till sin riktiga plats */
-}
-
-/* Startanimationer för Herosektionen */
-@keyframes fadeInDown {
+/* --- CSS ANIMATIONER --- */
+@keyframes slideDownFade {
     0% { opacity: 0; transform: translateY(-30px); }
     100% { opacity: 1; transform: translateY(0); }
 }
-@keyframes fadeInUp {
-    0% { opacity: 0; transform: translateY(30px); }
+
+@keyframes slideUpFade {
+    0% { opacity: 0; transform: translateY(40px); }
     100% { opacity: 1; transform: translateY(0); }
 }
 
-/* MOBILANPASSNING */
+/* Mobilanpassning */
 @media (max-width: 768px) {
-    .logo { font-size: 2.8rem; }
-    .hero { min-height: 50vh; }
+    .logo { font-size: 2.5rem; }
     .grid-layout { grid-template-columns: 1fr; gap: 16px; }
     .full-width { grid-column: span 1; }
     .card { padding: 24px; }
-    .image-card { height: 240px; }
-    .container { padding: 20px 16px 20px 16px; }
+    .image-card { height: 250px; }
+    .container { padding: 40px 16px 20px 16px; }
 }
