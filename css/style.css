@@ -13,7 +13,6 @@
     padding: 0;
 }
 
-/* FIXAR BAKGRUNDEN EN GÅNG FÖR ALLA */
 html {
     height: 100%;
     background: var(--bg-overlay), url('../ets2_20260617_152933_00.png') no-repeat center center fixed;
@@ -27,31 +26,48 @@ body {
     color: var(--text-main);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden; /* Förhindrar att animationerna skapar sidscroll */
 }
 
+/* HERO SEKTION (Tvingar fram skroll) */
+.hero {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.logo {
+    font-size: 4rem;
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: #ffffff;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    /* En subtil animation på loggan som andas in när sidan laddas */
+    animation: fadeInDown 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.hero-subtitle {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    opacity: 0;
+    animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards;
+}
+
+/* CONTAINERS & GRID */
 .container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 60px 20px 40px 20px;
+    padding: 0 20px 40px 20px;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.logo {
-    font-size: 3.2rem;
-    font-weight: 800;
-    letter-spacing: -1px;
-    color: #ffffff;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-}
-
-/* SMART GRID SOM ANPASSAR SIG AUTOMATISKT */
 .grid-layout {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -59,7 +75,9 @@ header {
     flex-grow: 1;
 }
 
+/* KORTEN MED GLASS SWEEP-EFFEKT */
 .card {
+    position: relative;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 16px;
@@ -67,130 +85,106 @@ header {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+    overflow: hidden; /* Viktigt för sweep-effekten */
+}
+
+/* Det glänsande strecket som drar över kortet när du hovrar */
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0; 
+    left: -150%; 
+    width: 50%; 
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.06), transparent);
+    transform: skewX(-25deg);
+    transition: left 0.7s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.card:hover::before {
+    left: 150%;
 }
 
 .card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-8px) scale(1.01);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* Se till att innehållet ligger över den glänsande effekten */
+.card > * {
+    position: relative;
+    z-index: 2;
 }
 
 .full-width {
     grid-column: span 2;
 }
 
-.profile-card h2 {
-    font-size: 1.8rem;
-    color: #ffffff;
-    margin-bottom: 12px;
-}
+/* TYPOGRAFI & INNEHÅLL I KORTEN */
+.profile-card h2 { font-size: 1.8rem; color: #ffffff; margin-bottom: 12px; }
+.profile-card p { font-size: 1.1rem; }
+.profile-card strong { color: var(--accent-color); }
 
-.profile-card p {
-    color: var(--text-main);
-    font-size: 1.1rem;
-}
-
-.profile-card strong {
-    color: var(--accent-color);
-}
-
-.image-card {
-    padding: 0;
-    overflow: hidden;
-    height: 100%;
-}
-
+.image-card { padding: 0; }
 .image-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s ease;
+    transition: transform 0.8s ease;
 }
+.image-card:hover img { transform: scale(1.05); }
 
-.image-card:hover img {
-    transform: scale(1.02);
-}
+.list-card h3, .skills-card h3 { font-size: 1.4rem; color: #ffffff; margin-bottom: 16px; }
+.list-card ul { list-style: none; }
+.list-card li { margin-bottom: 12px; display: flex; align-items: flex-start; font-size: 1.05rem; }
+.list-card li span { margin-right: 10px; }
+.skills-card p { color: var(--text-muted); font-size: 1.05rem; }
 
-.list-card h3, .skills-card h3 {
-    font-size: 1.4rem;
-    color: #ffffff;
-    margin-bottom: 16px;
-}
-
-.list-card ul {
-    list-style: none;
-}
-
-.list-card li {
-    margin-bottom: 12px;
-    display: flex;
-    align-items: flex-start;
-    font-size: 1.05rem;
-}
-
-.list-card li span {
-    margin-right: 10px;
-}
-
-.skills-card p {
-    color: var(--text-muted);
-    font-size: 1.05rem;
-}
-
-/* REN TEXTKNAPP LÄNGST NER */
-footer {
-    margin-top: 60px;
-    text-align: center;
-}
-
+/* INLOGGNINGSKNAPP */
+footer { margin-top: 80px; text-align: center; }
 .login-text-btn {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    cursor: pointer;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    padding: 10px 20px;
-    transition: color 0.2s ease, opacity 0.2s ease;
-    opacity: 0.4;
+    background: none; border: none; color: var(--text-muted); font-size: 0.95rem;
+    cursor: pointer; font-weight: 500; letter-spacing: 0.5px; padding: 10px 20px;
+    transition: color 0.3s ease, opacity 0.3s ease; opacity: 0.4;
+}
+.login-text-btn:hover {
+    color: #ffffff; opacity: 1; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
-.login-text-btn:hover {
-    color: #ffffff;
+/* --- ANIMATIONSKLASSER (Scroll Reveal) --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(60px); /* Elementet börjar längre ner */
+    transition: all 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.reveal.active {
     opacity: 1;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    transform: translateY(0); /* Glider upp till sin riktiga plats */
+}
+
+/* Startanimationer för Herosektionen */
+@keyframes fadeInDown {
+    0% { opacity: 0; transform: translateY(-30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 /* MOBILANPASSNING */
 @media (max-width: 768px) {
-    .logo {
-        font-size: 2.4rem;
-    }
-    
-    .grid-layout {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-    
-    .full-width {
-        grid-column: span 1;
-    }
-    
-    .card {
-        padding: 24px;
-    }
-    
-    .image-card {
-        height: 240px;
-    }
-    
-    .container {
-        padding: 40px 16px 20px 16px;
-    }
-    
-    footer {
-        margin-top: 40px;
-    }
+    .logo { font-size: 2.8rem; }
+    .hero { min-height: 50vh; }
+    .grid-layout { grid-template-columns: 1fr; gap: 16px; }
+    .full-width { grid-column: span 1; }
+    .card { padding: 24px; }
+    .image-card { height: 240px; }
+    .container { padding: 20px 16px 20px 16px; }
 }
