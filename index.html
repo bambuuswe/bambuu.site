@@ -1,72 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bambuu Customs // Hub</title>
     <link rel="stylesheet" href="css/style.css">
-    </head>
+</head>
 <body>
 
     <div class="container">
         <header>
-            <h1>Bambuu Customs</h1>
+            <h1 class="logo">Bambuu Customs</h1>
         </header>
 
-        <main>
-            <section class="profile-box">
+        <main class="grid-layout">
+            <section class="card full-width profile-card">
                 <h2>About Bambuu</h2>
                 <p>ETS2 Modder for <strong>Insanux</strong>. Specializing in save edits, local mods, and high-quality truck/trailer builds.</p>
             </section>
 
-            <section class="grid-container">
-                <div class="card">
-                    <img src="1.png" alt="Bambuu Showcase">
-                </div>
+            <div class="card image-card">
+                <img src="IMG_0216.jpg" alt="Bambuu Showcase">
+            </div>
 
-                <div class="card">
-                    <h3>Current Focus</h3>
-                    <ul>
-                        <li>🚛 Creating save edits & local mods for Insanux.</li>
-                        <li>🎨 High-quality, professional ETS2 projects.</li>
-                    </ul>
-                </div>
-                
-                <div class="card">
-                    <h3>Technical Skills</h3>
-                    <p>Computer hardware, networking and game servers.</p>
-                </div>
-            </section>
-
-            <section class="login-section">
-                <h3>System Access</h3>
-                <input type="password" id="pass-input" placeholder="Enter PIN...">
-                <button class="btn" onclick="checkPassword()">Login</button>
+            <div class="card list-card">
+                <h3>Current Focus</h3>
+                <ul>
+                    <li><span>🚛</span> Creating save edits & local mods for Insanux.</li>
+                    <li><span>🎨</span> High-quality, professional ETS2 projects.</li>
+                    <li><span>🌐</span> Developing the Bambuu Customs brand.</li>
+                </ul>
+            </div>
+            
+            <section class="card skills-card full-width">
+                <h3>Technical Skills</h3>
+                <p>Computer hardware, networking, game servers, web development and modern hosting.</p>
             </section>
         </main>
+
+        <footer>
+            <button class="login-text-btn" onclick="triggerLogin()">Login</button>
+        </footer>
     </div>
 
     <script>
-        async function checkPassword() {
-            const inputVal = document.getElementById('pass-input').value;
+        async function triggerLogin() {
+            // Öppnar en ren inmatningsruta direkt i webbläsaren
+            const inputVal = prompt("Enter password to access private section:");
+            
+            // Om användaren klickar på avbryt eller stänger rutan
+            if (inputVal === null) return; 
+            
             try {
-                // Denna letar efter password.txt i samma mapp som index.html
+                // Läser in filen password.txt
                 const response = await fetch('password.txt');
-                
                 if (!response.ok) {
-                    throw new Error("Could not find password.txt");
+                    throw new Error("Could not load password.txt");
                 }
-                
                 const realPass = await response.text();
                 
-                if (inputVal === realPass.trim()) {
+                // Jämför värdena (.trim rensar dolda radbrytningar)
+                if (inputVal.trim() === realPass.trim()) {
                     window.location.href = 'private.html'; 
                 } else {
-                    alert('Access Denied: Incorrect PIN');
+                    alert('Access Denied: Incorrect password.');
                 }
             } catch (error) {
                 console.error(error);
-                alert('System Error: Cannot verify credentials right now.');
+                alert('System Error: Could not verify credentials.');
             }
         }
     </script>
