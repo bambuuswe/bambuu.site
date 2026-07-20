@@ -4,80 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bambuu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
     <div class="container">
-        <!-- Header -->
         <header>
+            <p class="eyebrow">ETS2 Modder</p>
             <h1 class="logo">Bambuu</h1>
-            <p class="subtitle">High Quality ETS2 Modding & Save Edits</p>
+            <p class="subtitle">High Quality ETS2 Modding &amp; Save Edits</p>
         </header>
 
-        <!-- Korten -->
         <main class="grid-layout">
-            
-            <!-- Kort 1: Profil (Bred) -->
+
             <section class="card full-width">
+                <p class="card-eyebrow">- Me -</p>
                 <h2>About Bambuu</h2>
                 <p>ETS2 Modder for <strong>Insanux</strong>. Specializing in save edits, local mods, and high-quality truck/trailer builds.</p>
             </section>
 
-            <!-- Kort 2: Focus (Halvbred) -->
-            <div class="card list-card">
-                <h3>Current Focus</h3>
-                <ul>
-                    <li><span>🚛</span> Save edits & local mods</li>
-                    <li><span>🎨</span> Professional ETS2 builds</li>
-                    <li><span></span></li>
-                </ul>
-            </div>
-            
-            <!-- Kort 3: Bild (Halvbred) -->
-            <div class="card image-card">
-                <!-- Tillse att IMG_0216.jpg faktiskt ligger i samma mapp! -->
+            <div class="card image-card image-card-wide">
                 <img src="1.png" alt="Bambuu Showcase">
             </div>
 
-            <!-- Kort 4: Skills (Bred) -->
+            <div class="card list-card">
+                <p class="card-eyebrow">- Now -</p>
+                <h3>Current Focus</h3>
+                <ul>
+                    <li><span>🚛</span> Save edits &amp; local mods</li>
+                    <li><span>🎨</span> Professional ETS2 builds</li>
+                    <li><span>🌐</span> Developing the Bambuu brand</li>
+                </ul>
+            </div>
+
+            <div class="card media-card spotify-card">
+                <iframe src="https://open.spotify.com/embed/track/5aZUGyNzLjucKqp4WCqY6O" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+
             <section class="card full-width">
+                <p class="card-eyebrow">- Skills -</p>
                 <h3>Technical Skills</h3>
                 <p>Computer hardware, game servers and web development.</p>
             </section>
 
         </main>
 
-        <!-- Dolda inloggningen -->
         <footer>
-            <button class="login-text-btn" onclick="triggerLogin()">Login</button>
+            <button class="login-text-btn" id="loginBtn">Login</button>
         </footer>
     </div>
 
-    <!-- Script för Inloggning -->
-    <script>
-        async function triggerLogin() {
-            const inputVal = prompt("Enter PIN to access private section:");
-            
-            if (inputVal === null) return; 
-            
-            try {
-                const response = await fetch('password.txt');
-                if (!response.ok) {
-                    throw new Error("Could not load password.txt");
-                }
-                const realPass = await response.text();
-                
-                if (inputVal.trim() === realPass.trim()) {
-                    window.location.href = 'private.html'; 
-                } else {
-                    alert('Access Denied: Incorrect PIN.');
-                }
-            } catch (error) {
-                console.error(error);
-                alert('System Error: Could not verify credentials.');
-            }
-        }
-    </script>
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <button class="modal-close" id="modalClose" aria-label="Stäng">&times;</button>
+            <p class="card-eyebrow">Privat sektion</p>
+            <h3 id="modalTitle">Ange PIN-kod</h3>
+            <form id="loginForm" class="modal-form">
+                <input type="password" id="pinInput" class="modal-input" placeholder="••••" inputmode="numeric" autocomplete="off" autofocus>
+                <button type="submit" class="modal-submit">Logga in</button>
+            </form>
+            <p class="modal-error" id="modalError">Fel PIN-kod. Försök igen.</p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/cursor-fx.js"></script>
 </body>
 </html>

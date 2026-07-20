@@ -1,16 +1,72 @@
 :root {
-    --bg-overlay: linear-gradient(rgba(10, 10, 10, 0.75), rgba(10, 10, 10, 0.85));
-    --card-bg: rgba(20, 20, 20, 0.65);
+    --bg-overlay: linear-gradient(rgba(8, 10, 8, 0.78), rgba(8, 10, 8, 0.88));
+    --card-bg: rgba(22, 24, 20, 0.6);
+    --card-bg-hover: rgba(26, 29, 24, 0.7);
     --card-border: rgba(255, 255, 255, 0.08);
-    --accent-color: #0070f3;
-    --text-main: #e5e5e5;
-    --text-muted: #a0a0a0;
+    --accent-color: #3c6234;
+    --accent-light: #6a9c5f;
+    --accent-glow: rgba(60, 98, 52, 0.55);
+    --text-main: #e8e8e4;
+    --text-muted: #9a9d95;
+    --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+/* --- CURSOR TRAIL PIXELS --- */
+.pixel-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background: var(--accent-color);
+    pointer-events: none;
+    z-index: 9999;
+    image-rendering: pixelated;
+    box-shadow: 0 0 6px 1px var(--accent-glow);
+    transition: opacity 0.4s linear, transform 0.4s ease-out;
+    opacity: 0.9;
+}
+
+/* --- CLICK SPARK PARTICLES --- */
+.click-spark {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 4px;
+    pointer-events: none;
+    z-index: 9999;
+    image-rendering: pixelated;
+    background: #ffffff;
+}
+
+/* --- HOVER GLOW RING (follows cursor over interactive elements) --- */
+.hover-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 26px;
+    height: 26px;
+    border: 2px solid var(--accent-color);
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s ease, border-color 0.2s ease;
+    image-rendering: pixelated;
+    border-radius: 4px;
+}
+
+.hover-ring.active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
 }
 
 html {
@@ -22,14 +78,14 @@ html {
 
 body {
     min-height: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--font-body);
     color: var(--text-main);
     line-height: 1.6;
     overflow-x: hidden;
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 1080px;
     margin: 0 auto;
     padding: 60px 20px 40px 20px;
     display: flex;
@@ -40,66 +96,104 @@ body {
 /* Header */
 header {
     text-align: center;
-    margin-bottom: 50px;
-    /* Animerar in loggan först */
+    margin-bottom: 56px;
     animation: slideDownFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
+.eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 12px;
+}
+
 .logo {
-    font-size: 3.5rem;
-    font-weight: 800;
-    letter-spacing: -1px;
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: -2px;
     color: #ffffff;
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-    margin-bottom: 5px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    margin-bottom: 8px;
 }
 
 .subtitle {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: var(--text-muted);
+    letter-spacing: 0.2px;
 }
 
-/* Smart Grid */
+/* --- Bento Grid --- */
 .grid-layout {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(90px, auto);
+    gap: 20px;
     flex-grow: 1;
 }
 
-/* Korten med glaseffekt */
+.full-width { grid-column: span 6; }
+.image-card-wide { grid-column: span 2; grid-row: span 1; }
+.list-card { grid-column: span 4; grid-row: span 1; }
+.spotify-card { grid-column: span 6; }
+
+/* Korten med glaseffekt + gradient border */
 .card {
     position: relative;
     background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
+    border-radius: 18px;
     padding: 32px;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
     overflow: hidden;
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    
-    /* Alla kort börjar osynliga */
-    opacity: 0; 
+    transition: transform 0.15s ease, box-shadow 0.3s ease, background 0.3s ease;
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    opacity: 0;
     transform: translateY(30px);
-    /* Sätter CSS-animationen som laddar in dem */
     animation: slideUpFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Gradient border via padding-box/border-box trick */
+.card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.14), var(--card-border) 40%, var(--card-border) 60%, rgba(255,255,255,0.06));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    transition: background 0.4s ease;
+    z-index: 1;
+}
+
+.card:hover::after {
+    background: linear-gradient(135deg, var(--accent-light), var(--card-border) 45%, var(--card-border) 55%, var(--accent-color));
 }
 
 /* STAGGER EFFEKT: Korten laddas in en efter en */
 .card:nth-child(1) { animation-delay: 0.2s; }
-.card:nth-child(2) { animation-delay: 0.4s; }
-.card:nth-child(3) { animation-delay: 0.6s; }
-.card:nth-child(4) { animation-delay: 0.8s; }
+.card:nth-child(2) { animation-delay: 0.3s; }
+.card:nth-child(3) { animation-delay: 0.4s; }
+.card:nth-child(4) { animation-delay: 0.5s; }
+.card:nth-child(5) { animation-delay: 0.6s; }
+.card:nth-child(6) { animation-delay: 0.7s; }
 
 /* Glänsande Hover-effekt (Sweep) */
 .card::before {
     content: "";
     position: absolute;
-    top: 0; 
-    left: -150%; 
-    width: 50%; 
+    top: 0;
+    left: -150%;
+    width: 50%;
     height: 100%;
     background: linear-gradient(to right, transparent, rgba(255,255,255,0.06), transparent);
     transform: skewX(-25deg);
@@ -110,26 +204,55 @@ header {
 
 .card:hover::before { left: 150%; }
 .card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+    box-shadow: 0 16px 44px 0 rgba(0, 0, 0, 0.55), 0 0 0 1px var(--accent-glow);
+    background: var(--card-bg-hover);
 }
+
+/* Snappy tilt response while hovering, smoother return on leave (toggled via .tilting class in JS) */
+.card.tilting { transition: box-shadow 0.3s ease, background 0.3s ease; }
+.card:not(.tilting) { transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, background 0.3s ease; }
 
 .card > * { position: relative; z-index: 2; }
 
-.full-width { grid-column: span 2; }
-
 /* Typografi i korten */
-.card h2, .card h3 { color: #ffffff; margin-bottom: 15px; }
-.card p { font-size: 1.1rem; }
-.card strong { color: var(--accent-color); }
+.card-eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 10px;
+}
+
+.card h2, .card h3 {
+    font-family: var(--font-display);
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+.card p { font-size: 1.05rem; color: var(--text-main); }
+.card strong { color: var(--accent-light); font-weight: 600; }
 
 /* Bildkortet */
-.image-card { padding: 0; display: flex; }
+.image-card {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(60, 98, 52, 0.35), rgba(0, 0, 0, 0.4));
+}
+.image-card-wide {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+}
 .image-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
     transition: transform 0.8s ease;
 }
@@ -137,8 +260,15 @@ header {
 
 /* Listor */
 .list-card ul { list-style: none; }
-.list-card li { margin-bottom: 12px; display: flex; font-size: 1.05rem; }
-.list-card li span { margin-right: 12px; }
+.list-card li {
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--text-main);
+}
+.list-card li:last-child { margin-bottom: 0; }
+.list-card li span { margin-right: 12px; font-size: 1.1rem; }
 
 /* Inloggningsknapp i Footer */
 footer {
@@ -146,15 +276,153 @@ footer {
     text-align: center;
     opacity: 0;
     animation: slideUpFade 0.8s ease forwards;
-    animation-delay: 1s; /* Laddas in sist */
+    animation-delay: 1s;
 }
 
 .login-text-btn {
-    background: none; border: none; color: var(--text-muted); font-size: 0.95rem;
+    background: none; border: none; color: var(--text-muted); font-size: 0.9rem;
+    font-family: var(--font-body);
     cursor: pointer; font-weight: 500; letter-spacing: 0.5px; padding: 10px 20px;
     transition: color 0.3s ease, opacity 0.3s ease; opacity: 0.4;
 }
-.login-text-btn:hover { color: #ffffff; opacity: 1; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+.login-text-btn:hover { color: var(--accent-light); opacity: 1; text-shadow: 0 0 12px var(--accent-glow); }
+
+/* --- LOGIN MODAL --- */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 6, 5, 0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal {
+    position: relative;
+    background: rgba(20, 22, 18, 0.85);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 36px;
+    width: 100%;
+    max-width: 360px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    transform: translateY(16px) scale(0.98);
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    text-align: center;
+}
+
+.modal-overlay.active .modal {
+    transform: translateY(0) scale(1);
+}
+
+.modal h3 {
+    font-family: var(--font-display);
+    color: #ffffff;
+    font-size: 1.4rem;
+    margin-bottom: 24px;
+    font-weight: 700;
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px;
+    transition: color 0.2s ease;
+}
+.modal-close:hover { color: #ffffff; }
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.modal-input {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+    text-align: center;
+    color: var(--text-main);
+    font-family: var(--font-body);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.modal-submit {
+    background: var(--accent-color);
+    border: none;
+    border-radius: 10px;
+    padding: 13px 20px;
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.modal-submit:hover {
+    background: var(--accent-light);
+    transform: translateY(-1px);
+}
+
+.modal-submit:active { transform: translateY(0); }
+
+.modal-error {
+    color: #e57373;
+    font-size: 0.85rem;
+    margin-top: 14px;
+    opacity: 0;
+    height: 0;
+    transition: opacity 0.2s ease;
+}
+
+.modal-error.show {
+    opacity: 1;
+    height: auto;
+}
+
+.modal.shake {
+    animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+}
 
 /* --- CSS ANIMATIONER --- */
 @keyframes slideDownFade {
@@ -171,8 +439,31 @@ footer {
 @media (max-width: 768px) {
     .logo { font-size: 2.5rem; }
     .grid-layout { grid-template-columns: 1fr; gap: 16px; }
-    .full-width { grid-column: span 1; }
+    .full-width, .image-card-wide, .list-card, .spotify-card {
+        grid-column: span 1;
+        grid-row: auto;
+    }
     .card { padding: 24px; }
-    .image-card { height: 250px; }
+    .image-card-wide { height: auto; aspect-ratio: 1 / 1; }
     .container { padding: 40px 16px 20px 16px; }
+    .modal { padding: 28px 24px; }
+}
+
+/* --- EMBED/MEDIA BOXAR --- */
+.media-card {
+    padding: 0;
+    overflow: hidden;
+}
+
+.media-card iframe {
+    width: 100%;
+    display: block;
+    border: none;
+    border-radius: 18px;
+}
+
+.spotify-card iframe {
+    border-radius: 12px;
+    margin: 10px;
+    width: calc(100% - 20px);
 }
