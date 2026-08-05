@@ -1,5 +1,10 @@
-// Hanterar den dolda inloggningen längst ner på sidan
+// Handles the hidden login at the bottom of the page
 (function () {
+    // SHA-256 hash of the PIN (so the plaintext isn't in a downloadable file)
+    // To change the PIN, hash the new code, e.g. with:
+    //   echo -n "newcode" | sha256sum
+    const PIN_HASH = '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b';
+
     const loginBtn = document.getElementById('loginBtn');
     const overlay = document.getElementById('modalOverlay');
     const closeBtn = document.getElementById('modalClose');
@@ -31,23 +36,24 @@
         if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
     });
 
+    input.addEventListener('input', () => errorMsg.classList.remove('show'));
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const inputVal = input.value;
         errorMsg.classList.remove('show');
 
         try {
-            // Hämtar lösenordet från password.txt
-            const response = await fetch('password.txt');
-            if (!response.ok) {
-                throw new Error("Could not load password.txt");
-            }
-            const realPass = await response.text();
+            // Hash the input and compare it with PIN_HASH (SHA-256)
+            const data = new TextEncoder().encode(inputVal.trim());
+            const digest = await crypto.subtle.digest('SHA-256', data);
+            const hash = [...new Uint8Array(digest)]
+                .map((b) => b.toString(16).padStart(2, '0'))
+                .join('');
 
-            // Jämför inmatningen med filen
-            if (inputVal.trim() === realPass.trim()) {
-                // Skickar dig till private-sidan om det är rätt
-                window.location.href = 'private.html';
+            if (hash === PIN_HASH) {
+                // Redirect to the private page if correct
+                window.location.href = 'private/index.html';
             } else {
                 errorMsg.classList.add('show');
                 input.value = '';
@@ -59,7 +65,7 @@
             }
         } catch (error) {
             console.error(error);
-            errorMsg.textContent = 'Systemfel: kunde inte verifiera.';
+                errorMsg.textContent = 'System error: could not verify.';
             errorMsg.classList.add('show');
         }
     });

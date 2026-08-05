@@ -71,7 +71,8 @@
 
 html {
     height: 100%;
-    /* Fastlåst bakgrund som alltid täcker */
+    scroll-behavior: smooth;
+    /* Fixed background that always covers */
     background: var(--bg-overlay), url('../ets2_20260723_121120_00.png') no-repeat center center fixed;
     background-size: cover;
 }
@@ -95,9 +96,21 @@ body {
 
 /* Header */
 header {
+    position: relative;
     text-align: center;
     margin-bottom: 56px;
     animation: slideDownFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+header::before {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 2px;
+    margin: 0 auto 24px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+    box-shadow: 0 0 12px var(--accent-glow);
 }
 
 .eyebrow {
@@ -116,7 +129,7 @@ header {
     font-weight: 700;
     letter-spacing: -2px;
     color: #ffffff;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 0 34px rgba(60, 98, 52, 0.55), 0 4px 20px rgba(0, 0, 0, 0.8);
     margin-bottom: 8px;
 }
 
@@ -136,9 +149,13 @@ header {
 }
 
 .full-width { grid-column: span 6; }
+.about-card { grid-column: span 4; }
 .image-card-wide { grid-column: span 2; grid-row: span 1; }
-.list-card { grid-column: span 4; grid-row: span 1; }
-.spotify-card { grid-column: span 6; }
+.list-card { grid-column: span 2; grid-row: span 1; }
+.feature-card { grid-column: span 2; grid-row: span 1; }
+.skills-card { grid-column: span 3; }
+.exclusive-card { grid-column: span 4; }
+.spotify-card { grid-column: span 3; }
 
 /* Korten med glaseffekt + gradient border */
 .card {
@@ -186,8 +203,10 @@ header {
 .card:nth-child(4) { animation-delay: 0.5s; }
 .card:nth-child(5) { animation-delay: 0.6s; }
 .card:nth-child(6) { animation-delay: 0.7s; }
+.card:nth-child(7) { animation-delay: 0.8s; }
+.card:nth-child(8) { animation-delay: 0.9s; }
 
-/* Glänsande Hover-effekt (Sweep) */
+/* Shine hover effect (Sweep) */
 .card::before {
     content: "";
     position: absolute;
@@ -236,7 +255,7 @@ header {
 .card p { font-size: 1.05rem; color: var(--text-main); }
 .card strong { color: var(--accent-light); font-weight: 600; }
 
-/* Bildkortet */
+/* Image card */
 .image-card {
     padding: 0;
     display: flex;
@@ -258,7 +277,7 @@ header {
 }
 .image-card:hover img { transform: scale(1.05); }
 
-/* Listor */
+/* Lists */
 .list-card ul { list-style: none; }
 .list-card li {
     margin-bottom: 14px;
@@ -270,7 +289,7 @@ header {
 .list-card li:last-child { margin-bottom: 0; }
 .list-card li span { margin-right: 12px; font-size: 1.1rem; }
 
-/* Inloggningsknapp i Footer */
+/* Login button in footer */
 footer {
     margin-top: 60px;
     text-align: center;
@@ -435,18 +454,240 @@ footer {
     100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Mobilanpassning */
+/* --- SUBPAGES (mods / save-edits) --- */
+.container header h1:not(.logo) {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    color: #ffffff;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    margin-bottom: 8px;
+}
+
+.container nav {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.container nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 8px 16px;
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.container nav a:hover {
+    color: var(--accent-light);
+    border-color: var(--accent-color);
+    background: rgba(60, 98, 52, 0.15);
+    text-shadow: 0 0 12px var(--accent-glow);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.grid-container .span-all {
+    grid-column: 1 / -1;
+}
+
+.mod-tag {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    background: rgba(60, 98, 52, 0.2);
+    border: 1px solid var(--card-border);
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.grid-container .card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.grid-container .card img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+.grid-container .card h3 {
+    font-family: var(--font-display);
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+.grid-container .card p {
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+
+.btn {
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: auto;
+    background: var(--accent-color);
+    color: #ffffff;
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+    padding: 11px 20px;
+    border-radius: 10px;
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+    background: var(--accent-light);
+    transform: translateY(-1px);
+    box-shadow: 0 0 18px var(--accent-glow);
+}
+
+.btn-disabled,
+.btn-disabled:hover {
+    background: rgba(60, 98, 52, 0.25);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    pointer-events: none;
+}
+
+/* Hidden/blurred teaser text on mod cards */
+.blur-text {
+    filter: blur(6px);
+    opacity: 0.75;
+    user-select: none;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.card:hover .blur-text {
+    filter: blur(4px);
+    opacity: 0.85;
+}
+
+/* --- FEATURED LINK CARDS (Mods / Save Edits) --- */
+.feature-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 230px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.feature-card h3 { margin-bottom: 6px; }
+.feature-card p { font-size: 0.95rem; color: var(--text-muted); }
+
+.feature-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: rgba(60, 98, 52, 0.25);
+    border: 1px solid var(--card-border);
+    color: var(--accent-light);
+    margin-bottom: 4px;
+}
+
+.feature-icon svg { width: 22px; height: 22px; }
+
+.feature-arrow {
+    align-self: flex-end;
+    font-size: 1.35rem;
+    line-height: 1;
+    color: var(--accent-light);
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s ease;
+}
+
+.feature-card:hover .feature-arrow {
+    transform: translateX(6px);
+    color: #ffffff;
+}
+
+/* Wide horizontal variant for the featured Exclusive card */
+.exclusive-card.feature-card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    min-height: 0;
+}
+
+.exclusive-card .feature-icon { margin-bottom: 0; }
+.exclusive-card .feature-arrow { align-self: center; margin-left: auto; }
+
+/* --- FOOTER --- */
+footer nav {
+    margin-top: 0;
+    margin-bottom: 18px;
+    gap: 18px;
+}
+
+footer nav a {
+    border: none;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    letter-spacing: 0.4px;
+}
+
+footer nav a:hover { background: none; }
+
+.copyright {
+    margin-top: 18px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    opacity: 0.55;
+}
+
+/* Mobile */
 @media (max-width: 768px) {
     .logo { font-size: 2.5rem; }
     .grid-layout { grid-template-columns: 1fr; gap: 16px; }
-    .full-width, .image-card-wide, .list-card, .spotify-card {
+    .full-width, .about-card, .image-card-wide, .list-card, .feature-card, .skills-card, .exclusive-card, .spotify-card {
         grid-column: span 1;
         grid-row: auto;
     }
     .card { padding: 24px; }
     .image-card-wide { height: auto; aspect-ratio: 1 / 1; }
+    .feature-card { min-height: 180px; }
     .container { padding: 40px 16px 20px 16px; }
     .modal { padding: 28px 24px; }
+    .container header h1:not(.logo) { font-size: 1.8rem; }
+    .grid-container { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* Respect users who have turned off animations */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    header, footer { animation: none; opacity: 1; }
+    .card { animation: none; opacity: 1; transform: none; }
 }
 
 /* --- EMBED/MEDIA BOXAR --- */

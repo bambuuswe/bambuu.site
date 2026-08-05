@@ -1,5 +1,8 @@
 // Retro pixel cursor effects: mouse trail + click sparks + hover ring + card tilt
 (function () {
+    // Skip all effects for users who prefer reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const COLORS = ['#3c6234', '#ffffff', '#6a9c5f'];
     const TRAIL_SPACING = 24; // ms between spawned trail pixels
     const TRAIL_LIFETIME = 400; // ms

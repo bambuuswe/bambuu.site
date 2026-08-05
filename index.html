@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bambuu – ETS2 modder. High quality save edits, local mods and truck/trailer builds.">
+    <meta property="og:title" content="Bambuu">
+    <meta property="og:description" content="High Quality ETS2 Modding & Save Edits">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bambuu.site/">
+    <meta property="og:image" content="https://bambuu.site/1.png">
     <title>Bambuu</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -16,18 +23,21 @@
             <p class="eyebrow">ETS2 Modder</p>
             <h1 class="logo">Bambuu</h1>
             <p class="subtitle">High Quality ETS2 Modding &amp; Save Edits</p>
+            <nav>
+                <a href="exclusive.html">Exclusive</a>
+            </nav>
         </header>
 
         <main class="grid-layout">
 
-            <section class="card full-width">
+            <section class="card about-card">
                 <p class="card-eyebrow">- Me -</p>
                 <h2>About Bambuu</h2>
                 <p>ETS2 Modder for <strong>Insanux</strong>. Specializing in save edits, local mods, and high-quality truck/trailer builds.</p>
             </section>
 
             <div class="card image-card image-card-wide">
-                <img src="1.png" alt="Bambuu Showcase">
+                <img src="1.png" alt="Bambuu Showcase" loading="lazy">
             </div>
 
             <div class="card list-card">
@@ -41,34 +51,49 @@
                 </ul>
             </div>
 
-            <div class="card media-card spotify-card">
-                <iframe src="https://open.spotify.com/embed/track/5TrYG1brmOJcqtOFXhLaMm" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
+            <a class="card feature-card exclusive-card" href="exclusive.html">
+                <span class="feature-icon"><i data-lucide="star"></i></span>
+                <div>
+                    <p class="card-eyebrow">- Free downloads -</p>
+                    <h3>Exclusive Mods</h3>
+                    <p>Mods &amp; save edits you'll only find here &ndash; always free.</p>
+                </div>
+                <span class="feature-arrow" aria-hidden="true">&rarr;</span>
+            </a>
 
-            <section class="card full-width">
+            <section class="card skills-card">
                 <p class="card-eyebrow">- Skills -</p>
                 <h3>Technical Skills</h3>
                 <p>Computer hardware, game servers and web development.</p>
             </section>
 
+            <div class="card media-card spotify-card">
+                <iframe src="https://open.spotify.com/embed/track/5TrYG1brmOJcqtOFXhLaMm" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+
         </main>
 
         <footer>
+            <nav>
+                <a href="index.html">Hub</a>
+                <a href="exclusive.html">Exclusive</a>
+            </nav>
             <button class="login-text-btn" id="loginBtn">Login</button>
+            <p class="copyright">&copy; <span id="year">2026</span> Bambuu</p>
         </footer>
     </div>
 
     <!-- Login Modal -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-            <button class="modal-close" id="modalClose" aria-label="Stäng">&times;</button>
-            <p class="card-eyebrow">Privat sektion</p>
-            <h3 id="modalTitle">Ange PIN-kod</h3>
+            <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+            <p class="card-eyebrow">Private section</p>
+            <h3 id="modalTitle">Enter PIN code</h3>
             <form id="loginForm" class="modal-form">
                 <input type="password" id="pinInput" class="modal-input" placeholder="••••" inputmode="numeric" autocomplete="off" autofocus>
-                <button type="submit" class="modal-submit">Logga in</button>
+                <button type="submit" class="modal-submit">Log in</button>
             </form>
-            <p class="modal-error" id="modalError">Fel PIN-kod. Försök igen.</p>
+            <p class="modal-error" id="modalError">Wrong PIN. Try again.</p>
         </div>
     </div>
 
@@ -77,6 +102,7 @@
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <script>
   lucide.createIcons();
+  document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
