@@ -119,8 +119,18 @@ header::before {
     font-weight: 500;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: var(--accent-light);
     margin-bottom: 12px;
+    background: linear-gradient(90deg, var(--accent-light), #ffffff, var(--accent-light));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: eyebrow-shimmer 6s linear infinite;
+}
+
+@keyframes eyebrow-shimmer {
+    to { background-position: 200% center; }
 }
 
 .logo {
@@ -149,15 +159,22 @@ header::before {
 }
 
 .full-width { grid-column: span 6; }
-.about-card { grid-column: span 4; }
+.about-card {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .image-card-wide { grid-column: span 2; grid-row: span 1; }
 .list-card { grid-column: span 2; grid-row: span 1; }
-.feature-card { grid-column: span 2; grid-row: span 1; }
+.feature-card { grid-column: span 3; grid-row: span 1; }
 .skills-card { grid-column: span 3; }
-.exclusive-card { grid-column: span 4; }
-.spotify-card { grid-column: span 3; }
+.exclusive-card { grid-column: span 2; }
+.status-card { grid-column: span 3; }
+.insanux-card { grid-column: span 4; }
+.spotify-card { grid-column: span 6; }
 
-/* Korten med glaseffekt + gradient border */
+/* Cards with glass effect + gradient border */
 .card {
     position: relative;
     background: var(--card-bg);
@@ -176,6 +193,13 @@ header::before {
     animation: slideUpFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
+/* Rotating border angle for the card frame (Discord-style glow border) */
+@property --card-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
 /* Gradient border via padding-box/border-box trick */
 .card::after {
     content: "";
@@ -183,20 +207,39 @@ header::before {
     inset: 0;
     border-radius: 18px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.14), var(--card-border) 40%, var(--card-border) 60%, rgba(255,255,255,0.06));
+    background: conic-gradient(from var(--card-angle),
+        rgba(255, 255, 255, 0.10),
+        var(--accent-glow) 15%,
+        var(--accent-light) 25%,
+        var(--accent-glow) 35%,
+        rgba(255, 255, 255, 0.10) 50%,
+        rgba(255, 255, 255, 0.10));
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
-    mask-composite: exclude;
     pointer-events: none;
     transition: background 0.4s ease;
     z-index: 1;
+    animation: card-angle-spin 10s linear infinite;
+}
+
+@keyframes card-angle-spin {
+    to { --card-angle: 360deg; }
 }
 
 .card:hover::after {
-    background: linear-gradient(135deg, var(--accent-light), var(--card-border) 45%, var(--card-border) 55%, var(--accent-color));
+    background: conic-gradient(from var(--card-angle),
+        rgba(255, 255, 255, 0.14),
+        var(--accent-glow) 12%,
+        #ffffff 22%,
+        var(--accent-glow) 32%,
+        rgba(255, 255, 255, 0.14) 50%,
+        rgba(255, 255, 255, 0.14));
+    animation-duration: 3s;
 }
 
-/* STAGGER EFFEKT: Korten laddas in en efter en */
+/* STAGGER EFFECT: Cards load in one after another */
 .card:nth-child(1) { animation-delay: 0.2s; }
 .card:nth-child(2) { animation-delay: 0.3s; }
 .card:nth-child(3) { animation-delay: 0.4s; }
@@ -749,6 +792,244 @@ footer {
     border-radius: 12px;
 }
 
+/* --- HUD FRAME (showcase) --- */
+.hud-frame {
+    position: relative;
+    display: inline-block;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px var(--card-border), 0 0 34px rgba(60, 98, 52, 0.35);
+}
+
+.hud-frame img {
+    display: block;
+    width: 100%;
+    max-width: 560px;
+    border-radius: 12px;
+}
+
+.hud-corner {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border: 2px solid var(--accent-light);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+    pointer-events: none;
+    animation: hud-corner-pulse 3s ease-in-out infinite;
+}
+
+.hud-corner.tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+.hud-corner.tr { top: 8px; right: 8px; border-left: none; border-bottom: none; animation-delay: 1.5s; }
+.hud-corner.bl { bottom: 8px; left: 8px; border-right: none; border-top: none; animation-delay: 1.5s; }
+.hud-corner.br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+
+@keyframes hud-corner-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+}
+
+.hud-scan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -4px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+    box-shadow: 0 0 12px var(--accent-glow);
+    pointer-events: none;
+    animation: hud-scan 4s linear infinite;
+}
+
+@keyframes hud-scan {
+    0% { top: -4px; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+/* --- DISCORD STATUS CARD (Lanyard) --- */
+.status-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.status-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-color);
+    box-shadow: 0 0 12px var(--accent-glow);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.status-meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.status-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 1rem;
+    letter-spacing: -0.2px;
+}
+
+.status-line {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #747f8d;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.status-pop {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.35s ease;
+}
+
+.status-card:hover .status-pop {
+    max-height: 260px;
+    opacity: 1;
+    margin-top: 14px;
+}
+
+.status-pop ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    border-top: 1px solid var(--card-border);
+    padding-top: 12px;
+}
+
+.status-pop li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    min-width: 0;
+}
+
+.status-pop li strong {
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.status-pop li small {
+    color: var(--text-muted);
+}
+
+.status-pop li div {
+    min-width: 0;
+}
+
+.status-pop-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.status-emoji {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.status-album {
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+/* On touch devices there is no hover, so show the pop by default */
+@media (hover: none) {
+    .status-pop {
+        max-height: 260px;
+        opacity: 1;
+        margin-top: 14px;
+    }
+}
+
+/* --- INSANUX DISCORD STATS CARD --- */
+
+.insanux-dot.pulse {
+    animation: insanux-pulse 2s ease-in-out infinite;
+}
+
+@keyframes insanux-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.insanux-stats {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.insanux-stat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 10px 12px;
+    min-width: 0;
+}
+
+.insanux-stat-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+}
+
+.insanux-stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.insanux-join {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--accent-light);
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.insanux-join:hover {
+    color: #ffffff;
+    text-shadow: 0 0 12px var(--accent-glow);
+}
+
 /* --- FEATURED LINK CARDS (Mods / Save Edits) --- */
 .feature-card {
     display: flex;
@@ -770,6 +1051,8 @@ footer {
     justify-content: center;
     width: 46px;
     height: 46px;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
     border-radius: 12px;
     background: rgba(60, 98, 52, 0.25);
     border: 1px solid var(--card-border);
@@ -777,7 +1060,12 @@ footer {
     margin-bottom: 4px;
 }
 
-.feature-icon svg { width: 22px; height: 22px; }
+.feature-icon svg {
+    width: 22px;
+    height: 22px;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+}
 
 .feature-arrow {
     align-self: flex-end;
@@ -830,10 +1118,17 @@ footer nav a:hover { background: none; }
 /* Mobile */
 @media (max-width: 768px) {
     .logo { font-size: 2.5rem; }
-    .grid-layout { grid-template-columns: 1fr; gap: 16px; }
-    .full-width, .about-card, .image-card-wide, .list-card, .feature-card, .skills-card, .exclusive-card, .spotify-card {
+    header { margin-bottom: 36px; }
+    .grid-layout { grid-template-columns: 1fr; gap: 14px; }
+    .full-width, .about-card, .image-card-wide, .list-card, .feature-card, .skills-card, .exclusive-card, .status-card, .insanux-card, .spotify-card {
         grid-column: span 1;
         grid-row: auto;
+    }
+    /* On small screens there is no hover, so show the status pop by default */
+    .status-pop {
+        max-height: 260px;
+        opacity: 1;
+        margin-top: 14px;
     }
     .card { padding: 24px; }
     .image-card-wide { height: auto; aspect-ratio: 1 / 1; }
@@ -849,6 +1144,7 @@ footer nav a:hover { background: none; }
     html { scroll-behavior: auto; }
     header, footer { animation: none; opacity: 1; }
     .card { animation: none; opacity: 1; transform: none; }
+    .card::after, .eyebrow, .hud-corner, .hud-scan { animation: none; }
 }
 
 /* --- EMBED/MEDIA BOXAR --- */
@@ -868,4 +1164,123 @@ footer nav a:hover { background: none; }
     border-radius: 12px;
     margin: 10px;
     width: calc(100% - 20px);
+}
+
+/* --- PHONE PREVIEW (showcase) --- */
+.phone-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 4px 0 22px;
+}
+
+.phone-tab {
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: transparent;
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 7px 18px;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.phone-tab:hover {
+    color: #ffffff;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.phone-tab.active {
+    color: #ffffff;
+    border-color: var(--accent-color);
+    background: rgba(60, 98, 52, 0.2);
+    box-shadow: 0 0 14px var(--accent-glow);
+}
+
+.phone-stage {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0 4px;
+    overflow: hidden;
+}
+
+.phone-wrapper {
+    width: 350px;
+    height: 736px;
+    position: relative;
+}
+
+.phone-device {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 412px;
+    height: 866px;
+    background: #151515;
+    border: 3px solid #2c2c2c;
+    border-radius: 54px;
+    padding: 14px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05), 0 0 24px var(--accent-glow);
+    transform: scale(0.85);
+    transform-origin: top left;
+}
+
+.phone-device::before,
+.phone-device::after {
+    content: "";
+    position: absolute;
+    background: #2c2c2c;
+    border-radius: 4px;
+    right: -5px;
+    width: 4px;
+}
+
+.phone-device::before { top: 190px; height: 74px; }
+.phone-device::after { top: 280px; height: 44px; }
+
+.phone-screen {
+    width: 100%;
+    height: 100%;
+    background: #101010;
+    border-radius: 42px;
+    overflow: hidden;
+    position: relative;
+}
+
+.phone-screen iframe {
+    width: 390px;
+    height: 844px;
+    border: 0;
+    display: block;
+    background: #101010;
+}
+
+.phone-island {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 112px;
+    height: 32px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 3;
+    pointer-events: none;
+    box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.04);
+}
+
+@media (max-width: 480px) {
+    .phone-wrapper {
+        width: 278px;
+        height: 585px;
+    }
+    .phone-device {
+        transform: scale(0.675);
+    }
+    .phone-tab { padding: 6px 14px; }
 }

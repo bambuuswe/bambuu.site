@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Bambuu // Showcase</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="container container-narrow">
+        <header>
+            <p class="eyebrow">Effect preview</p>
+            <h1>HUD Frame</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="private/index.html">Back to private hub</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="card">
+                <p class="card-eyebrow">- Showcase -</p>
+                <h2>HUD corner frame</h2>
+                <p>Glowing corners that pulse, plus a scan line sweeping over the image. This is effect #5 &ndash; apply it to your showcase image if you like it.</p>
+
+                <figure class="hud-frame">
+                    <img src="1.png" alt="Bambuu Showcase with HUD frame">
+                    <span class="hud-corner tl"></span>
+                    <span class="hud-corner tr"></span>
+                    <span class="hud-corner bl"></span>
+                    <span class="hud-corner br"></span>
+                    <span class="hud-scan"></span>
+                </figure>
+
+                <p style="text-align:center; font-size:0.85rem; color:var(--text-muted);">These styles live in <strong>css/style.css</strong> (class <code>.hud-frame</code>).</p>
+            </div>
+
+            <div class="card">
+                <p class="card-eyebrow">- Mobile -</p>
+                <h2>Full mobile preview</h2>
+                <p>Here is the whole site in a phone frame. The iframe is 390px wide, so all mobile breakpoints are active. Switch between pages with the tabs &ndash; the login PIN works too.</p>
+
+                <div class="phone-tabs">
+                    <button class="phone-tab active" data-src="index.html">Hub</button>
+                    <button class="phone-tab" data-src="exclusive.html">Exclusive</button>
+                </div>
+
+                <div class="phone-stage">
+                    <div class="phone-wrapper">
+                        <div class="phone-device">
+                            <span class="phone-island"></span>
+                            <div class="phone-screen">
+                                <iframe id="phoneFrame" src="index.html" title="Mobile preview of bambuu.site"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.querySelectorAll('.phone-tab').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.phone-tab').forEach(function (b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                document.getElementById('phoneFrame').src = btn.dataset.src;
+            });
+        });
+    </script>
+</body>
+</html>
