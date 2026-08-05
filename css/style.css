@@ -1284,3 +1284,137 @@ footer nav a:hover { background: none; }
     }
     .phone-tab { padding: 6px 14px; }
 }
+
+/* --- ETS2 STATS PAGE --- */
+.dropzone {
+    border: 2px dashed var(--card-border);
+    border-radius: 16px;
+    padding: 36px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.dropzone:hover,
+.dropzone.dragover {
+    border-color: var(--accent-color);
+    background: rgba(60, 98, 52, 0.12);
+    box-shadow: 0 0 18px var(--accent-glow);
+}
+
+.dropzone-icon {
+    display: block;
+    font-size: 1.6rem;
+    color: var(--accent-light);
+    margin-bottom: 10px;
+}
+
+.dropzone p { margin: 0; color: var(--text-muted); }
+.dropzone strong { color: #ffffff; }
+
+.dropzone-hint {
+    margin-top: 14px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.dropzone-hint code {
+    font-family: Consolas, Monaco, monospace;
+    font-size: 0.78rem;
+    color: var(--accent-light);
+    background: rgba(60, 98, 52, 0.15);
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+.stats-error {
+    margin-top: 16px;
+    color: #ed4245;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.stats-section-title {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 26px 0 12px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    min-height: 68px;
+    justify-content: center;
+}
+
+.stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.stat-value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.skills-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.skill-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.skill-name {
+    font-size: 0.85rem;
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+.skill-track {
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+}
+
+.skill-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent-color), var(--accent-light));
+    box-shadow: 0 0 10px var(--accent-glow);
+    transition: width 0.6s ease;
+}
+
+.skill-level {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+}
