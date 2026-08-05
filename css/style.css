@@ -168,11 +168,10 @@ header::before {
 .image-card-wide { grid-column: span 2; grid-row: span 1; }
 .list-card { grid-column: span 2; grid-row: span 1; }
 .feature-card { grid-column: span 3; grid-row: span 1; }
-.skills-card { grid-column: span 3; }
-.exclusive-card { grid-column: span 2; }
+.skills-card { grid-column: span 2; }
 .status-card { grid-column: span 3; }
 .insanux-card { grid-column: span 4; }
-.spotify-card { grid-column: span 6; }
+.spotify-card { grid-column: span 3; }
 
 /* Cards with glass effect + gradient border */
 .card {
@@ -248,6 +247,7 @@ header::before {
 .card:nth-child(6) { animation-delay: 0.7s; }
 .card:nth-child(7) { animation-delay: 0.8s; }
 .card:nth-child(8) { animation-delay: 0.9s; }
+.card:nth-child(9) { animation-delay: 1s; }
 
 /* Shine hover effect (Sweep) */
 .card::before {
@@ -1079,18 +1079,6 @@ footer {
     transform: translateX(6px);
     color: #ffffff;
 }
-
-/* Wide horizontal variant for the featured Exclusive card */
-.exclusive-card.feature-card {
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 20px;
-    min-height: 0;
-}
-
-.exclusive-card .feature-icon { margin-bottom: 0; }
-.exclusive-card .feature-arrow { align-self: center; margin-left: auto; }
 
 /* --- FOOTER --- */
 footer nav {
