@@ -1,8 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Bambuu // Private Hub</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
 <body>
-    <h1>Welcome to the Private Bambuu Hub</h1>
-    <p>This area is top secret!</p>
-    <a href="../index.html">Log out</a>
+
+    <div class="container">
+        <header>
+            <p class="eyebrow">Private section</p>
+            <h1>Private Hub</h1>
+            <nav>
+                <a href="../index.html">Hub</a>
+                <a href="../exclusive.html">Exclusive</a>
+                <a href="../index.html">Log out</a>
+            </nav>
+        </header>
+
+        <main class="grid-container">
+            <div class="card span-all">
+                <p class="card-eyebrow">- Welcome -</p>
+                <h3>My private corner</h3>
+                <p>Tools and bookmarks, just for me.</p>
+            </div>
+
+            <div class="card span-all">
+                <p class="card-eyebrow">- Tools -</p>
+                <h3>Spotify Embed Generator</h3>
+                <p>Paste a Spotify link and get a ready-to-use embed link.</p>
+                <a href="../spotify-embed-generator.html" class="btn">Open generator</a>
+            </div>
+
+            <!-- ============ BOKMÄRKEN ============
+                 Lägga till ett nytt bokmärke (en enskild länk):
+                 Kopiera en rad som den här och klistra in i valfri lista:
+
+                 <li><a href="https://lank.se" target="_blank" rel="noopener">Namn <span class="bookmark-arrow">&rarr;</span></a></li>
+
+                 Lägga till en helt ny kategori (eget kort):
+                 Kopiera ett helt <div class="card">-block nedan och klistra in före </main>. -->
+            <div class="card span-all">
+                <h3>Bookmarks</h3>
+            </div>
+
+            <div class="card">
+                <p class="card-eyebrow">- Insanux &amp; Community -</p>
+                <h3>Community</h3>
+                <ul class="bookmark-list">
+                    <!-- Nya bokmärken läggs här, en rad per länk -->
+                    <li><a href="https://insanux.com" target="_blank" rel="noopener">Insanux <span class="bookmark-arrow">&rarr;</span></a></li>
+                    <li><a href="https://discord.gg/insanux" target="_blank" rel="noopener">Discord <span class="bookmark-arrow">&rarr;</span></a></li>
+                    <li><a href="https://steamcommunity.com/groups/Insanux" target="_blank" rel="noopener">Steam Group <span class="bookmark-arrow">&rarr;</span></a></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <p class="card-eyebrow">- Modding &amp; Downloads -</p>
+                <h3>Modding</h3>
+                <ul class="bookmark-list">
+                    <!-- Nya bokmärken läggs här, en rad per länk -->
+                    <li><a href="https://modsfire.com/authors/insanux" target="_blank" rel="noopener">Modsfire <span class="bookmark-arrow">&rarr;</span></a></li>
+                    <li><a href="https://github.com/Insanux-Mods" target="_blank" rel="noopener">GitHub <span class="bookmark-arrow">&rarr;</span></a></li>
+                    <li><a href="../spotify-embed-generator.html">Spotify Generator <span class="bookmark-arrow">&rarr;</span></a></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <p class="card-eyebrow">- Planning &amp; Inspiration -</p>
+                <h3>Planning</h3>
+                <ul class="bookmark-list">
+                    <!-- Nya bokmärken läggs här, en rad per länk -->
+                    <li><a href="https://miro.com/app/board/uXjVH9h4z6E=/" target="_blank" rel="noopener">Miro Board <span class="bookmark-arrow">&rarr;</span></a></li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
 </body>
 </html>
