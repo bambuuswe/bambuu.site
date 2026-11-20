@@ -14,12 +14,21 @@ The bio page served at https://bambuu.site.
 
 ## One-time VPS setup
 
-Log in to the VPS and run:
+Copy the script to the VPS from this folder on your PC (use your own login and server address):
+
+```
+scp deploy/setup-vps.sh USER@SERVER:
+```
+
+Then log in to the VPS and run it:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/bambuuswe/bambuu.site/main/deploy/setup-vps.sh -o setup-vps.sh
 sudo bash setup-vps.sh
 ```
+
+Because this repo is private, the first run stops and prints a key. Add that key at
+https://github.com/bambuuswe/bambuu.site/settings/keys/new (leave "Allow write access"
+unticked), then run the same command again. The key only lets the VPS read this one repo.
 
 The script finds the folder the web server serves. If it cannot tell, it lists the
 candidates and you run it again with the right one: `sudo bash setup-vps.sh /var/www/bambuu.site`.

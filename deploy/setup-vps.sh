@@ -13,7 +13,9 @@
 # It does not change the web server's configuration.
 set -euo pipefail
 
-REPO_URL="${REPO_URL:-https://github.com/bambuuswe/bambuu.site.git}"
+REPO_SLUG="${REPO_SLUG:-bambuuswe/bambuu.site}"
+REPO_URL="${REPO_URL:-}"          # worked out below when empty
+KEY="${KEY:-/root/.ssh/bambuu-site-deploy}"
 BRANCH="${BRANCH:-main}"
 DOMAIN="${DOMAIN:-bambuu.site}"
 CLONE_DIR="${CLONE_DIR:-/opt/bambuu-site}"
@@ -33,6 +35,42 @@ if ! command -v git >/dev/null 2>&1; then
   elif command -v yum     >/dev/null 2>&1; then yum install -y -q git
   elif command -v apk     >/dev/null 2>&1; then apk add --quiet git
   else die "Could not install git automatically. Install it and run this again."; fi
+fi
+
+# ---- make sure this server may read the repo ----
+SSH_CMD="ssh -i $KEY -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+USE_KEY=""
+if [ -z "$REPO_URL" ]; then
+  if GIT_TERMINAL_PROMPT=0 git -c credential.helper= ls-remote "https://github.com/$REPO_SLUG.git" >/dev/null 2>&1; then
+    REPO_URL="https://github.com/$REPO_SLUG.git"        # public repo: nothing else needed
+  else
+    # private repo: use a read-only deploy key that lives only on this server
+    REPO_URL="git@github.com:$REPO_SLUG.git"
+    command -v ssh-keygen >/dev/null 2>&1 || die "ssh-keygen is missing. Install openssh-client and run this again."
+    if [ ! -f "$KEY" ]; then
+      mkdir -p "$(dirname "$KEY")"; chmod 700 "$(dirname "$KEY")"
+      ssh-keygen -q -t ed25519 -N "" -C "$DOMAIN deploy key" -f "$KEY"
+    fi
+    export GIT_SSH_COMMAND="$SSH_CMD"
+    if ! git ls-remote "$REPO_URL" >/dev/null 2>&1; then
+      cat <<EOF
+
+The repo is private, so this server needs permission to read it.
+
+  1. Open https://github.com/$REPO_SLUG/settings/keys/new
+  2. Title: VPS
+     Key:   paste the line below
+     Leave "Allow write access" unticked.
+
+$(cat "$KEY.pub")
+
+  3. Click "Add key", then run this script again.
+
+EOF
+      exit 2
+    fi
+    USE_KEY=1
+  fi
 fi
 
 # ---- find the folder the web server serves ----
@@ -83,6 +121,7 @@ else
   git clone --quiet --branch "$BRANCH" "$REPO_URL" "$CLONE_DIR"
 fi
 [ -f "$CLONE_DIR/public/index.html" ] || die "The repo has no public/index.html."
+[ -z "$USE_KEY" ] || git -C "$CLONE_DIR" config core.sshCommand "$SSH_CMD"
 rm -f "$CLONE_DIR/.deployed"
 
 # ---- back up whatever is about to be replaced ----
